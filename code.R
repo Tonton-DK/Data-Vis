@@ -2,7 +2,7 @@ library(tidyverse)
 library(ggplot2)
 library(dplyr)
 
-dat <- read_csv("project/data.csv")
+dat <- read_csv("data.csv")
 dat <- dat %>% select(c("countryName","eprtrSectorName","facilityName","Longitude","Latitude","City","pollutant","emissions","reportingYear"))
 
 samp <- sample_n(dat, 50)
