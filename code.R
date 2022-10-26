@@ -2,6 +2,7 @@ library(tidyverse)
 library(ggplot2)
 library(dplyr)
 library(stringr)
+library(plotly)
 
 dat <- read_csv("data.csv")
 dat <- dat %>% select(c("countryName","eprtrSectorName","facilityName","Longitude","Latitude","City","pollutant","emissions","reportingYear"))
@@ -25,13 +26,34 @@ dat <- dat %>%
 #     xlab = "Emission Year", ylab = "Kg of pollutant",
 #     pch = 19)
 
-grouped <- group_by(dat, eprtrSectorName, reportingYear)
-meaned <- summarize(grouped, 
-          mean_emissions = mean(emissions, na.rm=TRUE))
-
-ggplot(meaned, aes(
+# Question 3 # Obs! Not all countries have full data for 2007 - 2020
+grouped <- group_by(dat, countryName, reportingYear)
+meaned <- summarize(grouped, mean_emission = mean(emissions, na.rm=TRUE))
+ggplotly(ggplot(meaned, aes(
   x = reportingYear,
-  y = mean_emissions,
+  y = mean_emission,
+  color=countryName)) +
+  geom_point() +
+  geom_line() +
+  xlab("Reporting year") +
+  ylab("Mean Emission in tons"))
+
+# Question 3 alternative
+grouped <- group_by(dat, countryName, reportingYear)
+yeared <- grouped %>% arrange(reportingYear, -emissions)
+ranked <- mutate(meaned, rank = 1:n())
+
+
+
+
+# Question 4
+grouped <- group_by(dat, eprtrSectorName, reportingYear)
+meaned <- summarize(grouped, mean_emission = mean(emissions, na.rm=TRUE))
+ggplotly(ggplot(meaned, aes(
+  x = reportingYear,
+  y = mean_emission,
   color=eprtrSectorName)) +
   geom_point() +
-  geom_line()
+  geom_line() +
+  xlab("Reporting year") +
+  ylab("Mean Emission in tons"))
