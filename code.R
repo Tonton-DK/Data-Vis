@@ -83,10 +83,9 @@ my_anim_time <- my_plot +
   scale_x_continuous(
     limits = c(-150, 400),  
     breaks = c(0, 100, 200, 300, 400)) +  
-  geom_text(x = 1000 , y = -10,  
-            family = "Times New Roman",
+  geom_text(x = 300, y = -10,  
             aes(label = as.character(reportingYear)),  
-            size = 30, col = "grey18") +  
+            size = 20, col = "grey18") +  
   aes(group = countryName) +  
   gganimate::transition_time(reportingYear)
 
