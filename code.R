@@ -13,7 +13,11 @@ cap <- cap %>% mutate(country = countryName)
 dat <- add_column(dat, isCapital = "FALSE", .after = "City")
 dat <- dat %>%
   left_join(cap) %>%
-  mutate(isCapital = ((countryName == country & str_detect(City, capital)) | (countryName == country & str_detect(City, capitalInLocal)))) %>%
+  mutate(isCapital = 
+           !is.na(City) & (
+             (countryName == country & str_detect(City, capital)) 
+             | (countryName == country & str_detect(City, capitalInLocal))
+           )) %>%
   select(-c(capital, capitalInLocal, country))
 
 #capitals <- dat %>% 
