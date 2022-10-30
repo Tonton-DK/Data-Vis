@@ -6,20 +6,21 @@ library(plotly)
 
 dat <- read_csv("data.csv")
 dat <- dat %>% select(c("countryName","eprtrSectorName","facilityName","Longitude","Latitude","City","pollutant","emissions","reportingYear"))
-cap <- read_csv("capitals.csv")
-cap <- cap %>% mutate(country = countryName)
 
 # Question 3 # Obs! Not all countries have full data for 2007 - 2020
 grouped <- group_by(dat, countryName, reportingYear)
 meaned <- summarize(grouped, mean_emission = mean(emissions, na.rm=TRUE))
+meaned <- rename(meaned, country = countryName, year = reportingYear, emission = mean_emission)
 ggplotly(ggplot(meaned, aes(
-  x = reportingYear,
-  y = mean_emission,
-  color=countryName)) +
+  x = year,
+  y = emission,
+  color=country)) +
   geom_point() +
   geom_line() +
   xlab("Reporting year") +
-  ylab("Mean Emission"))
+  ylab("Mean Emission") + 
+  scale_x_continuous(breaks=2007:2020) + 
+  scale_y_continuous(breaks = scales::breaks_extended(n = 15)))
 
 # Question 3 alternative (https://evamaerey.github.io/little_flipbooks_library/racing_bars/racing_barcharts.html)
 grouped <- group_by(dat, countryName, reportingYear)
