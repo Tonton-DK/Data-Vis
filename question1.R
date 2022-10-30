@@ -38,7 +38,7 @@ ggply <- ggplotly(
       name = "Mean emission", 
       low = "green", 
       high = "red", 
-      na.value = NA, 
+      na.value = "white", 
       breaks = scales::breaks_extended(n = 10)) +
     geom_text(data = labels, aes(label = region), colour = "blue", size = 3))
 
