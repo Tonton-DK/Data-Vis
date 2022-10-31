@@ -6,18 +6,19 @@ library(plotly)
 
 dat <- read_csv("data.csv")
 dat <- dat %>% select(c("countryName","eprtrSectorName","facilityName","Longitude","Latitude","City","pollutant","emissions","reportingYear"))
+countries <- dat %>% distinct(countryName)
 
 # Question 1
 grouped <- group_by(dat, countryName) 
 meaned <- summarize(grouped, mean_emission = mean(emissions, na.rm=TRUE)) 
+meaned <- countries %>% left_join(meaned, by = "countryName")
 mutated <- mutate(
   meaned,
   region = ifelse(countryName == "Czechia", "Czech Republic",
                   ifelse(countryName == "United Kingdom", "UK", countryName)))
 
 mapdata <- map_data("world") %>% 
-  left_join(mutated, by = "region") %>%
-  filter(!is.na(mean_emission))
+  inner_join(mutated, by = "region")
 mapdata <- rename(mapdata, country = countryName, emission = mean_emission)
 
 labels <- mapdata %>% 

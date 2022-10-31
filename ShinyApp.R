@@ -6,6 +6,7 @@ library(plotly)
 
 dat <- read_csv("data.csv")
 dat <- dat %>% select(c("countryName","eprtrSectorName","facilityName","Longitude","Latitude","City","pollutant","emissions","reportingYear"))
+countries <- dat %>% distinct(countryName)
 
 ui <- fluidPage(
   
@@ -38,14 +39,14 @@ server <- function(input, output) {
     # ///////////////////////////////////
     grouped <- group_by(filtered, countryName) 
     meaned <- summarize(grouped, mean_emission = mean(emissions, na.rm=TRUE)) 
+    meaned <- countries %>% left_join(meaned, by = "countryName")
     mutated <- mutate(
       meaned,
       region = ifelse(countryName == "Czechia", "Czech Republic",
                       ifelse(countryName == "United Kingdom", "UK", countryName)))
     
     mapdata <- map_data("world") %>% 
-      left_join(mutated, by = "region") %>%
-      filter(!is.na(mean_emission))
+      inner_join(mutated, by = "region")
     mapdata <- rename(mapdata, country = countryName, emission = mean_emission)
     
     labels <- mapdata %>% 
@@ -70,7 +71,7 @@ server <- function(input, output) {
           breaks = scales::breaks_extended(n = 10)) +
         geom_text(data = labels, aes(label = region), colour = "blue", size = 3))
     
-    #ggply$x$data[[31]]$hoverinfo <- "skip"
+    ggply$x$data[[33]]$hoverinfo <- "skip"
     ggply
     # ///////////////////////////////////
   })
