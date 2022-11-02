@@ -1,8 +1,21 @@
+#if (!require("tidyverse")) install.packages("tidyverse")
+#if (!require("ggplot2")) install.packages("ggplot2")
+#if (!require("dplyr")) install.packages("dplyr")
+#if (!require("stringr")) install.packages("stringr")
+#if (!require("plotly")) install.packages("plotly")
+#if (!require("patchwork")) install.packages("patchwork")
+#if (!require("ggthemes")) install.packages("ggthemes")
+#if (!require("devtools")) install.packages("devtools")
+
 library(tidyverse)
 library(ggplot2)
 library(dplyr)
 library(stringr)
 library(plotly)
+library(patchwork)
+library(ggthemes)
+#devtools::install_github('Mikata-Project/ggthemr')
+library(ggthemr)
 
 dat <- read_csv("data.csv")
 dat <- dat %>% select(c("countryName","eprtrSectorName","facilityName","Longitude","Latitude","City","pollutant","emissions","reportingYear"))
@@ -20,23 +33,34 @@ dat <- dat %>%
            )) %>%
   select(-c(capital, capitalInLocal, country))
 
-#capitals <- dat %>% 
-#    filter(isCapital == TRUE) %>%
-#    distinct(countryName, City, isCapital)
-
-#samp <- sample_n(dat, 50)
-
-#plot(samp$reportingYear, dat$emissions, main = "Emissions each year",
-#     xlab = "Emission Year", ylab = "Kg of pollutant",
-#     pch = 19)S
-
-# Question 6
+#Question 6
 ############################################################################
+ggthemr("flat")
 q6 <- dat %>% group_by(countryName, isCapital) %>%
   summarise(mean_emission = mean(emissions, na.rm=TRUE)) %>%
   mutate(mean_emission = mean_emission / 10^6,
-         isCapital = ifelse(isCapital, "Yes", "No"))
-ggplot(q6, aes(x = isCapital, y = mean_emission)) +
+         isCapital = ifelse(isCapital, "Capital", "Non-capital"))
+q6alt <- mutate(q6, mean_emission = ifelse(isCapital == "Capital", 
+                                           mean_emission, mean_emission * -1))
+
+
+# Bar chart with facets
+p1 <- ggplot(q6, aes(x = isCapital, y = mean_emission, fill = isCapital)) +
   geom_bar(aes(), position = "dodge", stat="identity") +
   facet_wrap(~countryName, scales="free_x") +
-  labs(x = "Pollution in capital", y = "Mean emission (million tons)")
+  labs(x = "Pollution in capital", 
+       y = "Mean emission (thousand tons)",
+       fill = "")
+
+# dumbbell'ish bar chart
+p2 <- ggplot(q6alt, aes(x = countryName, y = mean_emission, fill = isCapital)) +
+  geom_col() +
+  coord_flip() +
+  scale_y_continuous(limit = c(-400, 400), 
+                     breaks = c(-400, -300, -200, -100, 0, 100, 200, 300, 400),
+                     labels = c(400, 300, 200, 100, 0, 100, 200, 300, 400)) +
+  labs(x = "Pollution in capital", 
+       y = "Mean emission (thousand tons)", 
+       fill = "")
+
+p1 + p2
