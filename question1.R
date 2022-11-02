@@ -8,8 +8,6 @@ dat <- read_csv("data.csv")
 dat <- dat %>% select(c("countryName","eprtrSectorName","facilityName","Longitude","Latitude","City","pollutant","emissions","reportingYear"))
 countries <- dat %>% distinct(countryName)
 
-reg <- read_csv("regions.csv")
-
 # Question 1
 grouped <- group_by(dat, countryName) 
 meaned <- summarize(grouped, mean_emission = mean(emissions, na.rm=TRUE)) 
@@ -43,7 +41,8 @@ ggply <- ggplotly(
       high = "red", 
       na.value = "white", 
       breaks = scales::breaks_extended(n = 10)) +
-    geom_text(data = labels, aes(label = region), colour = "blue", size = 3))
+    geom_text(data = labels, aes(label = region), colour = "blue", size = 3) + 
+    scale_fill_carto_c(palette="Safe"))
 
 ggply$x$data[[33]]$hoverinfo <- "skip"
 ggply

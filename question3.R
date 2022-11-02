@@ -7,7 +7,6 @@ library(gganimate)
 
 dat <- read_csv("data.csv")
 dat <- dat %>% select(c("countryName","eprtrSectorName","facilityName","Longitude","Latitude","City","pollutant","emissions","reportingYear"))
-
 reg <- read_csv("regions.csv")
 
 # Question 3 # Obs! Not all countries have full data for 2007 - 2020
@@ -21,6 +20,25 @@ ggplotly(
       x = year,
       y = emission,
       color=country)) +
+    geom_point() +
+    geom_line() +
+    xlab("Reporting year") +
+    ylab("Mean Emission") + 
+    scale_x_continuous(breaks=2007:2020) + 
+    scale_y_continuous(breaks = scales::breaks_extended(n = 15)))
+
+# Question 3 by region
+regioned <- inner_join(dat, reg, by = "countryName")
+grouped <- group_by(regioned, region, reportingYear)
+meaned <- summarize(grouped, mean_emission = mean(emissions, na.rm=TRUE))
+meaned <- rename(meaned, year = reportingYear, emission = mean_emission)
+ggplotly(
+  ggplot(
+    meaned, 
+    aes(
+      x = year,
+      y = emission,
+      color=region)) +
     geom_point() +
     geom_line() +
     xlab("Reporting year") +
