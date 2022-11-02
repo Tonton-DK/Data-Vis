@@ -8,6 +8,8 @@ dat <- read_csv("data.csv")
 dat <- dat %>% select(c("countryName","eprtrSectorName","facilityName","Longitude","Latitude","City","pollutant","emissions","reportingYear"))
 countries <- dat %>% distinct(countryName)
 
+reg <- read_csv("regions.csv")
+
 # Question 1
 grouped <- group_by(dat, countryName) 
 meaned <- summarize(grouped, mean_emission = mean(emissions, na.rm=TRUE)) 

@@ -8,6 +8,8 @@ library(gganimate)
 dat <- read_csv("data.csv")
 dat <- dat %>% select(c("countryName","eprtrSectorName","facilityName","Longitude","Latitude","City","pollutant","emissions","reportingYear"))
 
+reg <- read_csv("regions.csv")
+
 # Question 3 # Obs! Not all countries have full data for 2007 - 2020
 grouped <- group_by(dat, countryName, reportingYear)
 meaned <- summarize(grouped, mean_emission = mean(emissions, na.rm=TRUE))

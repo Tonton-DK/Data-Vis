@@ -8,25 +8,26 @@ dat <- read_csv("data.csv")
 dat <- dat %>% select(c("countryName","eprtrSectorName","facilityName","Longitude","Latitude","City","pollutant","emissions","reportingYear"))
 countries <- dat %>% distinct(countryName)
 
-ui <- fluidPage(
-  
-  titlePanel("Pollution by year"),
-  
-  sidebarLayout(
-    sidebarPanel(
-      sliderInput("yearId",
-                  "Select a year",
-                  min = 2007,
-                  max = 2020,
-                  value = 2007,
-                  sep = "")
-    ),
-    
-    # Show a plot of the generated distribution
-    mainPanel(
-      plotlyOutput("pollutionPlot")
-    )
-  )
+reg <- read_csv("regions.csv")
+
+ui <- navbarPage(
+  title="My Application",
+  tabPanel("Question 1",
+           sliderInput("yearId",
+                       "Select a year",
+                       min = 2007,
+                       max = 2020,
+                       value = 2007,
+                       sep = ""),
+           plotlyOutput("pollutionPlot")
+  ),
+  tabPanel("Question 2"),
+  tabPanel("Question 3"),
+  tabPanel("Question 4"),
+  tabPanel("Question 5"),
+  tabPanel("Question 6"),
+  tabPanel("Question 7"),
+  tabPanel("Question 8")
 )
 
 server <- function(input, output) {

@@ -8,6 +8,8 @@ library(rcartocolor)
 dat <- read_csv("data.csv")
 dat <- dat %>% select(c("countryName","eprtrSectorName","facilityName","Longitude","Latitude","City","pollutant","emissions","reportingYear"))
 
+reg <- read_csv("regions.csv")
+
 # Question 4
 grouped <- group_by(dat, eprtrSectorName, reportingYear)
 meaned <- summarize(grouped, mean_emission = mean(emissions, na.rm=TRUE))
