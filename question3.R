@@ -3,6 +3,7 @@ library(ggplot2)
 library(dplyr)
 library(stringr)
 library(plotly)
+library(gganimate)
 
 dat <- read_csv("data.csv")
 dat <- dat %>% select(c("countryName","eprtrSectorName","facilityName","Longitude","Latitude","City","pollutant","emissions","reportingYear"))
@@ -76,3 +77,4 @@ my_anim_time <- my_plot +
   gganimate::transition_time(reportingYear)
 
 my_anim_time
+anim_save("my_anim.gif",animation=my_anim_time)
