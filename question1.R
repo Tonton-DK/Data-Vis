@@ -3,6 +3,7 @@ library(ggplot2)
 library(dplyr)
 library(stringr)
 library(plotly)
+library(rcartocolor)
 
 dat <- read_csv("data.csv")
 dat <- dat %>% select(c("countryName","eprtrSectorName","facilityName","Longitude","Latitude","City","pollutant","emissions","reportingYear"))
