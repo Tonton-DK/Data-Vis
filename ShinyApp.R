@@ -9,6 +9,8 @@ source('data.R')
 source('q1.R')
 source('q3.R')
 source('q4.R')
+source('q5.R')
+source('q6.R')
 
 ui <- navbarPage(
   title="My Application",
@@ -16,8 +18,8 @@ ui <- navbarPage(
   tabPanel("Question 2"),
   q3_ui,
   q4_ui,
-  tabPanel("Question 5"),
-  tabPanel("Question 6"),
+  q5_ui,
+  q6_ui,
   tabPanel("Question 7"),
   tabPanel("Question 8")
 )
@@ -26,6 +28,8 @@ server <- function(input, output) {
   output$pollutionPlot1 <- q1_server(input, output)
   output$pollutionPlot3 <- q3_server(input, output)
   output$pollutionPlot4 <- q4_server(input, output)
+  output$pollutionPlot5 <- q5_server(input, output)
+  output$pollutionPlot6 <- q6_server(input, output)
 }
 
 shinyApp(ui,server)
