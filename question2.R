@@ -2,6 +2,7 @@ library(ggplot2)
 library(ggridges)
 library(gganimate)
 library(plotly)
+library(tidyverse)
 
 dat <- read_csv("data.csv")
 dat <-
@@ -69,7 +70,7 @@ meaned <-
 #   geom_jitter(position = position_jitter(0.1)) +
 #   scale_y_continuous(breaks = scales::breaks_extended(n = 15)) +
 #   scale_color_continuous(breaks = 2007:2020)
-#
+# 
 # ggplotly(strip)
 
 # bar <-
