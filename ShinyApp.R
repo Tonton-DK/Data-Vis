@@ -7,9 +7,9 @@ library(rcartocolor)
 
 dat <- read_csv("data.csv")
 dat <- dat %>% select(c("countryName","eprtrSectorName","facilityName","Longitude","Latitude","City","pollutant","emissions","reportingYear"))
+regions <- read_csv("regions.csv")
+dat <- inner_join(dat, regions, by = "countryName")
 countries <- dat %>% distinct(countryName)
-
-reg <- read_csv("regions.csv")
 
 ui <- navbarPage(
   title="My Application",
@@ -21,11 +21,17 @@ ui <- navbarPage(
                        value = 2007,
                        sep = "",
                        animate = TRUE),
-           plotlyOutput("pollutionPlot")
+           plotlyOutput("pollutionPlot1")
   ),
   tabPanel("Question 2"),
-  tabPanel("Question 3"),
-  tabPanel("Question 4"),
+  tabPanel("Question 3", 
+           selectInput("grouping",
+                       label = "Choose a grouping type",
+                       choices = list("Country", "EU Region"),
+                       selected = "Country"),
+           plotlyOutput("pollutionPlot3")
+  ),
+  tabPanel("Question 4", plotlyOutput("pollutionPlot4")),
   tabPanel("Question 5"),
   tabPanel("Question 6"),
   tabPanel("Question 7"),
@@ -34,12 +40,9 @@ ui <- navbarPage(
 
 server <- function(input, output) {
   
-  output$pollutionPlot <- renderPlotly({
+  output$pollutionPlot1 <- renderPlotly({
+    filtered = dat %>% filter(reportingYear==input$yearId)
     
-    filtered = dat %>%
-      filter(reportingYear==input$yearId)
-
-    # ///////////////////////////////////
     grouped <- group_by(filtered, countryName) 
     meaned <- summarize(grouped, mean_emission = mean(emissions, na.rm=TRUE)) 
     meaned <- countries %>% left_join(meaned, by = "countryName")
@@ -66,18 +69,69 @@ server <- function(input, output) {
           group = group, 
           label = country)) + 
         geom_polygon(aes(fill = emission), color = "black") +
-        scale_fill_gradient(
-          name = "Mean emission", 
-          low = "green", 
-          high = "red", 
-          na.value = "white", 
-          breaks = scales::breaks_extended(n = 10)) +
         geom_text(data = labels, aes(label = region), colour = "blue", size = 3) + 
-        scale_fill_carto_c(palette="Safe"))
+        scale_fill_carto_c(
+          palette="Safe",
+          name = "Mean emission",
+          na.value = "white",
+          limits = c(0, 300000000),
+          breaks = scales::breaks_extended(n = 10)))
     
     ggply$x$data[[33]]$hoverinfo <- "skip"
     ggply
-    # ///////////////////////////////////
+  })
+  
+  output$pollutionPlot3 <- renderPlotly({
+    
+    if(input$grouping == "Country"){
+      grouped <- group_by(dat, countryName, reportingYear)
+      aes <- aes(
+        x = year,
+        y = emission,
+        color = country)
+      meaned <- summarize(grouped, mean_emission = mean(emissions, na.rm=TRUE))
+      meaned <- rename(meaned, country = countryName, year = reportingYear, emission = mean_emission)
+    }
+    else if (input$grouping == "EU Region"){
+      grouped <- group_by(dat, region, reportingYear)
+      aes <- aes(
+        x = year,
+        y = emission,
+        color = region)
+      meaned <- summarize(grouped, mean_emission = mean(emissions, na.rm=TRUE))
+      meaned <- rename(meaned, year = reportingYear, emission = mean_emission)
+    }
+    
+    ggplotly(
+      ggplot(
+        meaned, 
+        aes) +
+        geom_point() +
+        geom_line() +
+        xlab("Reporting year") +
+        ylab("Mean Emission") + 
+        scale_x_continuous(breaks=2007:2020) + 
+        scale_y_continuous(breaks = scales::breaks_extended(n = 15)))
+  })
+  
+  output$pollutionPlot4 <- renderPlotly({
+    grouped <- group_by(dat, eprtrSectorName, reportingYear)
+    meaned <- summarize(grouped, mean_emission = mean(emissions, na.rm=TRUE))
+    meaned <- rename(meaned, sector = eprtrSectorName, year = reportingYear, emission = mean_emission)
+    ggplotly(
+      ggplot(
+        meaned, 
+        aes(
+          x = year,
+          y = emission,
+          color=sector)) +
+        geom_point() +
+        geom_line() +
+        xlab("Reporting year") +
+        ylab("Mean Emission in Kg") +
+        scale_x_continuous(breaks=2007:2020) +
+        scale_y_continuous(breaks = scales::breaks_extended(n=15)) +
+        scale_color_carto_d(palette="Safe",direction=-1))
   })
 }
 

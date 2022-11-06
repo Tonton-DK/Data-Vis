@@ -36,14 +36,13 @@ ggply <- ggplotly(
       group = group, 
       label = country)) + 
     geom_polygon(aes(fill = emission), color = "black") +
-    scale_fill_gradient(
-      name = "Mean emission", 
-      low = "green", 
-      high = "red", 
-      na.value = "white", 
-      breaks = scales::breaks_extended(n = 10)) +
     geom_text(data = labels, aes(label = region), colour = "blue", size = 3) + 
-    scale_fill_carto_c(palette="Safe"))
+    scale_fill_carto_c(
+      palette="Safe",
+      name = "Mean emission",
+      na.value = "white",
+      limits = c(0, 300000000),
+      breaks = scales::breaks_extended(n = 10)))
 
 ggply$x$data[[33]]$hoverinfo <- "skip"
 ggply
