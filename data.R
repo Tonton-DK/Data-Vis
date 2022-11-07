@@ -23,5 +23,4 @@ dat <- dat %>%
              | (countryName == country & str_detect(City, capitalInLocal))
            )) %>%
   select(-c(capital, capitalInLocal, country))
-rm(cap)
 capitals <- select(capitals, -c(country))
