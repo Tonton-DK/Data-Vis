@@ -26,3 +26,23 @@ ggplotly(
     scale_x_continuous(breaks=2007:2020) +
     scale_y_continuous(breaks = scales::breaks_extended(n=15)) +
     scale_color_carto_d(palette="Safe",direction=-1))
+
+ggplotly(
+  ggplot(
+    meaned, 
+    aes(
+      x = year,
+      y = sector,
+      fill = emission)) +
+    geom_tile() +
+    scale_x_continuous(breaks=2007:2020)+
+    scale_fill_gradient2( 
+      name = "Mean emission",  
+      low = "blue",  
+      mid = "green",
+      high = "red",  
+      midpoint = 150000000,
+      na.value = "white",  
+      limits = c(0, 300000000),
+      breaks = scales::breaks_extended(n = 10))
+)
