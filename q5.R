@@ -3,8 +3,6 @@ library(ggplot2)
 library(dplyr)
 library(plotly)
 
-# source('data.R')
-
 q5_ui <- tabPanel("Question 5",
                   plotlyOutput("pollutionPlot5")
 )
@@ -28,12 +26,15 @@ q5_server <- function(input, output){
     ggply <- ggplotly(ggplot(q5, aes(x = reportingYear,
                                      y = mean_emission, 
                                      group = pollutant, 
-                                     color = pollutant)) +
+                                     color = pollutant,
+                                     text = paste("Reporting year:\t\t", reportingYear,
+                                                  "<br>Mean emission:\t", round(abs(mean_emission),2),
+                                                  "<br>Pollutant:\t\t\t\t\t\t\t\t\t\t\t" , pollutant))) +
       geom_point() +
       geom_line() +
       labs(x = "Reporting year", 
            y = "Mean emission (thousand tons)", 
-           color = "Pollutant")
+           color = "Pollutant"), tooltip = c("text")
     )
     ggply
   })
