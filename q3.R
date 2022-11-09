@@ -12,7 +12,9 @@ q3_ui <- tabPanel("Question 3",
                               label = "Choose a grouping type",
                               choices = list("Country", "EU Region"),
                               selected = "Country"),
-                  plotlyOutput("pollutionPlot3")
+                  plotlyOutput("pollutionPlot3", 
+                               width = "1200px", 
+                               height = "800px")
 )
 
 q3_server <- function(input, output){

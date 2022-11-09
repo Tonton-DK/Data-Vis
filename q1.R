@@ -15,7 +15,9 @@ q1_ui <- tabPanel("Question 1",
                               value = 2007,
                               sep = "",
                               animate = TRUE),
-                  plotlyOutput("pollutionPlot1")
+                  plotlyOutput("pollutionPlot1", 
+                               width = "800px", 
+                               height = "800px")
 )
 
 q1_server <- function(input, output){
