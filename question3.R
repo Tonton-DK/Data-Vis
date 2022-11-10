@@ -4,10 +4,23 @@ library(dplyr)
 library(stringr)
 library(plotly)
 library(gganimate)
+library(readr)
+library(paletteer)
+library(scales)
 
 dat <- read_csv("data.csv")
 dat <- dat %>% select(c("countryName","eprtrSectorName","facilityName","Longitude","Latitude","City","pollutant","emissions","reportingYear"))
 reg <- read_csv("regions.csv")
+# Color list from: https://github.com/DesiQuintans/Pebble-safe
+# The colors are quite bright!
+raw_cols <- c("#666666", "#A6761D", "#E6AB02", "#66A61E", "#E7298A", "#7570B3", 
+              "#D95F02", "#1B9E77", "#A6CEE3", "#1F78B4", "#B2DF8A", "#33A02C", 
+              "#FB9A99", "#E31A1C", "#FDBF6F", "#FF7F00", "#CAB2D6", "#6A3D9A", 
+              "#FFFF99", "#B15928", "#B3B3B3", "#E5C494", "#FFD92F", "#A6D854", 
+              "#E78AC3", "#8DA0CB", "#FC8D62", "#66C2A5", "#CD7EAA", "#D5683A", 
+              "#2A78B5", "#F1E54E", "#2AA179", "#62B6E6", "#E7A337", "#292929",
+              "#FFE119", "#4363D8", "#F58231", "#FABEBE", "#E6BEFF", "#800000", 
+              "#000075", "#FCFCFC", "#A9A9A9")
 
 # Question 3 # Obs! Not all countries have full data for 2007 - 2020
 grouped <- group_by(dat, countryName, reportingYear)
@@ -23,9 +36,13 @@ ggplotly(
     geom_point() +
     geom_line() +
     xlab("Reporting year") +
-    ylab("Mean Emission") + 
+    ylab("Mean Emission") +
+    geom_vline(xintercept = 2015, linetype="dotted", colour="darkblue") +
+    scale_color_manual(values=c(raw_cols)) +
     scale_x_continuous(breaks=2007:2020) + 
-    scale_y_continuous(breaks = scales::breaks_extended(n = 15)))
+    scale_y_continuous(breaks = scales::breaks_extended(n = 15) +
+    geom_vline(xintercept = 2015, linetype="dotted", colour="darkblue")))
+  
 
 # Question 3 by region
 regioned <- inner_join(dat, reg, by = "countryName")
@@ -42,7 +59,8 @@ ggplotly(
     geom_point() +
     geom_line() +
     xlab("Reporting year") +
-    ylab("Mean Emission") + 
+    ylab("Mean Emission") +
+    geom_vline(xintercept = 2015, linetype="dotted", colour="darkblue") +
     scale_x_continuous(breaks=2007:2020) + 
     scale_y_continuous(breaks = scales::breaks_extended(n = 15)))
 

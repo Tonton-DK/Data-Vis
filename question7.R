@@ -9,6 +9,7 @@ library(paletteer)
 library(scales)
 
 
+
 dat <- read_csv("data.csv")
 dat <- dat %>% select(c("countryName","eprtrSectorName","facilityName","Longitude","Latitude","City","pollutant","emissions","reportingYear"))
 cap <- read_csv("capitals.csv")
@@ -55,7 +56,8 @@ raw_cols <- c("#666666", "#A6761D", "#E6AB02", "#66A61E", "#E7298A", "#7570B3",
 #geom_vline(): xintercept
 #geom_hline(): yintercept
 #geom_abline(): slope and intercept
-line_plot = ggplotly(ggplot(meaned, aes(
+line_plot = ggplotly(
+  ggplot(meaned, aes(
   x = reportingYear,
   y = mean_emission,
   color=countryName)) +
@@ -65,6 +67,7 @@ line_plot = ggplotly(ggplot(meaned, aes(
     #ylab("Mean Emission (tons)"))
     scale_y_continuous(name="Mean Emissions (kg)", breaks=seq(0e+00, 3.5e+08, 0.5e+08)) +
     geom_vline(xintercept = 2015, linetype="dotted", colour="darkblue") + 
+    #geom_vline(aes(xintercept = 2015), linetype="dotted", colour="darkblue") + 
     #scale_color_brewer(palette = "BuPu")
     scale_color_manual(values=c(raw_cols)))
 
