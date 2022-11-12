@@ -74,21 +74,21 @@ ranked_by_year <- meaned %>%
   arrange(reportingYear, -mean_emission) %>%  
   # assign ranking
   mutate(rank = 1:n()) %>%  
-  filter(rank <= 10)
+  filter(rank <= 10) %>%  
+  filter(reportingYear == 2018)
 
-my_plot <- 
-  ggplot(ranked_by_year) +  
+ggplotly(
+ggplot(ranked_by_year) +  
   aes(xmin = 0 ,  
       xmax = mean_emission / 1000000) +  
   aes(ymin = rank - .45,  
       ymax = rank + .45,  
       y = rank) +  
-  facet_wrap(~ reportingYear) +  
   geom_rect(alpha = .7) +  
   aes(fill = countryName) +  
   scale_fill_viridis_d(option = "magma", direction = -1) +  
   scale_x_continuous(
-    limits = c(-400, 400),  
+    limits = c(-150, 400),  
     breaks = c(0, 100, 200, 300, 400)) +  
   geom_text(col = "gray13",  
             hjust = "right",  
@@ -102,17 +102,4 @@ my_plot <-
     axis.text.y = element_blank(),
     axis.ticks.y = element_blank(),
     axis.line.y = element_blank())
-
-my_anim_time <- my_plot +  
-  facet_null() +  
-  scale_x_continuous(
-    limits = c(-150, 400),  
-    breaks = c(0, 100, 200, 300, 400)) +  
-  geom_text(x = 300, y = -10,
-            aes(label = as.character(reportingYear)),  
-            size = 20, col = "grey18") +  
-  aes(group = countryName) +  
-  gganimate::transition_time(reportingYear)
-
-my_anim_time
-anim_save("my_anim.gif",animation=my_anim_time)
+)

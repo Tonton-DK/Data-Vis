@@ -4,6 +4,9 @@ library(dplyr)
 library(stringr)
 library(plotly)
 library(rcartocolor)
+library(readr)
+library(paletteer)
+library(scales)
 
 #source('data.R')
 
@@ -17,11 +20,14 @@ q1_ui <- tabPanel("Question 1",
                               animate = TRUE),
                   plotlyOutput("pollutionPlot1", 
                                width = "800px", 
+                               height = "800px"),
+                  plotlyOutput("pollutionPlot2", 
+                               width = "800px", 
                                height = "800px")
 )
 
 q1_server <- function(input, output){
-  renderPlotly({
+  output$pollutionPlot1 <- renderPlotly({
     filtered = dat %>% filter(reportingYear==input$yearId)
     
     grouped <- group_by(filtered, countryName) 
@@ -60,5 +66,46 @@ q1_server <- function(input, output){
     
     ggply$x$data[[33]]$hoverinfo <- "skip"
     ggply
+  })
+  
+  output$pollutionPlot2 <- renderPlotly({
+    grouped <- group_by(dat, countryName, reportingYear)
+    meaned <- summarize(grouped, mean_emission = mean(emissions, na.rm=TRUE))
+    
+    ranked_by_year <- meaned %>%  
+      # for each year we assign a rank
+      group_by(reportingYear) %>% 
+      arrange(reportingYear, -mean_emission) %>%  
+      # assign ranking
+      mutate(rank = 1:n()) %>%  
+      filter(rank <= 10) %>%  
+      filter(reportingYear == 2018)
+    
+    ggplotly(
+      ggplot(ranked_by_year) +  
+        aes(xmin = 0 ,  
+            xmax = mean_emission / 1000000) +  
+        aes(ymin = rank - .45,  
+            ymax = rank + .45,  
+            y = rank) +  
+        geom_rect(alpha = .7) +  
+        aes(fill = countryName) +  
+        scale_fill_viridis_d(option = "magma", direction = -1) +  
+        scale_x_continuous(
+          limits = c(-150, 400),  
+          breaks = c(0, 100, 200, 300, 400)) +  
+        geom_text(col = "gray13",  
+                  hjust = "right",  
+                  aes(label = countryName),  
+                  x = -50) +  
+        scale_y_reverse() +  
+        labs(fill = NULL) +  
+        labs(x = 'Mean Emission') +  
+        labs(y = "Rank") +
+        theme(
+          axis.text.y = element_blank(),
+          axis.ticks.y = element_blank(),
+          axis.line.y = element_blank())
+    )
   })
 }

@@ -25,7 +25,7 @@ ui <- navbarPage(
 )
 
 server <- function(input, output) {
-  output$pollutionPlot1 <- q1_server(input, output)
+  q1_server(input, output)
   output$pollutionPlot3 <- q3_server(input, output)
   output$pollutionPlot4 <- q4_server(input, output)
   output$pollutionPlot5 <- q5_server(input, output)
