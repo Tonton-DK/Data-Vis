@@ -5,7 +5,7 @@ library(stringr)
 library(plotly)
 library(rcartocolor)
 
-source('data.R')
+#source('data.R')
 
 q4_ui <- tabPanel("Question 4", 
                   plotlyOutput("pollutionPlot4", 
@@ -27,7 +27,7 @@ q4_server <- function(input, output){
         geom_point() +
         geom_line() +
         xlab("Reporting year") +
-        ylab("Mean Emission in Kg") +
+        ylab("Mean Emission (1000x tons)") +
         scale_x_continuous(breaks=2007:2020) +
         scale_y_continuous(breaks = scales::breaks_extended(n=15)) +
         scale_color_carto_d(palette="Safe",direction=-1))

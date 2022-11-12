@@ -3,15 +3,18 @@ library(ggplot2)
 library(dplyr)
 library(plotly)
 
-q5_ui <- tabPanel("Question 5",
-                  plotlyOutput("pollutionPlot5")
+q5_ui <- tabPanel(
+  "Question 5",
+  plotlyOutput("pollutionPlot5", 
+  width = "800px", 
+  height = "800px")
 )
 
 q5_server <- function(input, output){
   renderPlotly({
     temp <- dat %>% 
       group_by(pollutant, reportingYear) %>%
-      summarise(mean_emission = mean(emissions, na.rm=TRUE))
+      summarise(mean_emission = sum(emissions, na.rm=TRUE))
     top3 <- dat %>% 
       group_by(pollutant) %>%
       summarise(temp = mean(emissions, na.rm=TRUE)) %>%
@@ -20,7 +23,7 @@ q5_server <- function(input, output){
     q5 <- merge(x = top3, y = temp, by = "pollutant", all.x = TRUE) %>%
       select(-temp) %>%
       mutate(reportingYear = factor(reportingYear),
-             mean_emission = round((mean_emission / 10^6), 0))
+             mean_emission = round(mean_emission, 0))
     rm(temp, top3)
     
     ggply <- ggplotly(ggplot(q5, aes(x = reportingYear,
@@ -33,7 +36,7 @@ q5_server <- function(input, output){
       geom_point() +
       geom_line() +
       labs(x = "Reporting year", 
-           y = "Mean emission (thousand tons)", 
+           y = "Mean emission (1000x tons)", 
            color = "Pollutant"), tooltip = c("text")
     )
     ggply

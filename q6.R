@@ -11,7 +11,9 @@ q6_ui <- tabPanel(
                  "Non-capital" = "ncap",
                  "Country")
   ),
-  plotlyOutput("pollutionPlot6")
+  plotlyOutput("pollutionPlot6", 
+               width = "800px", 
+               height = "800px")
 )
 
 q6_server <- function(input, output) {
@@ -24,7 +26,6 @@ q6_server <- function(input, output) {
       summarise(mean_emission = mean(emissions, na.rm = TRUE))
     q6 <- left_join(q6, temp) %>%
       mutate(
-        mean_emission = mean_emission / 10 ^ 6,
         NA_val = ifelse(!is.na(mean_emission), NA, 0),
         mean_emission = ifelse(isCapital, mean_emission * -1, mean_emission),
         order_cap = ifelse(isCapital, ifelse(is.na(mean_emission), 0, mean_emission), 0),
@@ -94,7 +95,7 @@ q6_server <- function(input, output) {
         geom_point(aes(x = countryName, y = NA_val, fill = "NA"), size = 3, stroke = 0) +
         labs(
           x = "Country",
-          y = "Mean emission (thousand tons)",
+          y = "Mean emission (1000x tons)",
           fill = "Pollution in capital",
           title = "Capital        Non-capital"
         ) +

@@ -17,10 +17,12 @@ capitals <- capitals %>% mutate(country = countryName) #
 dat <- add_column(dat, isCapital = "FALSE", .after = "City")
 dat <- dat %>%
   left_join(capitals) %>%
-  mutate(isCapital = 
-           !is.na(City) & (
-             (countryName == country & str_detect(City, capital)) 
-             | (countryName == country & str_detect(City, capitalInLocal))
-           )) %>%
+  mutate(
+    isCapital = 
+      !is.na(City) & (
+        (countryName == country & str_detect(City, capital)) 
+          | (countryName == country & str_detect(City, capitalInLocal))),
+    emissions = (emissions / 10^6)
+    ) %>%
   select(-c(capital, capitalInLocal, country))
 capitals <- select(capitals, -c(country))

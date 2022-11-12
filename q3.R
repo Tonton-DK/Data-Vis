@@ -5,7 +5,7 @@ library(stringr)
 library(plotly)
 library(rcartocolor)
 
-source('data.R')
+#source('data.R')
 
 q3_ui <- tabPanel("Question 3", 
                   selectInput("grouping",
@@ -34,7 +34,7 @@ q3_server <- function(input, output){
         geom_point() +
         geom_line() +
         xlab("Reporting year") +
-        ylab("Mean Emission") + 
+        ylab("Mean Emission (1000x tons)") + 
         scale_x_continuous(breaks=2007:2020) + 
         scale_y_continuous(breaks = scales::breaks_extended(n = 15)) +
         geom_vline(xintercept = 2015, linetype="dotted", colour="darkblue") 
@@ -54,7 +54,7 @@ q3_server <- function(input, output){
         geom_point() +
         geom_line() +
         xlab("Reporting year") +
-        ylab("Mean Emission") + 
+        ylab("Mean Emission (1000x tons)") + 
         scale_x_continuous(breaks=2007:2020) + 
         scale_y_continuous(breaks = scales::breaks_extended(n = 15)) +
         geom_vline(xintercept = 2015, linetype="dotted", colour="darkblue") 
@@ -74,7 +74,7 @@ q3_server <- function(input, output){
         geom_point() +
         geom_line() +
         xlab("Reporting year") +
-        ylab("Mean Emission") + 
+        ylab("Mean Emission (1000x tons)") + 
         scale_x_continuous(breaks=2007:2020) + 
         scale_y_continuous(breaks = scales::breaks_extended(n = 15)) +
         facet_wrap(~region) +

@@ -5,7 +5,7 @@ library(stringr)
 library(plotly)
 library(rcartocolor)
 
-source('data.R')
+#source('data.R')
 
 q1_ui <- tabPanel("Question 1",
                   sliderInput("yearId",
@@ -53,9 +53,9 @@ q1_server <- function(input, output){
         geom_text(data = labels, aes(label = region), colour = "blue", size = 3) + 
         scale_fill_carto_c(
           palette="Safe",
-          name = "Mean emission",
+          name = "Mean emission (1000x tons)",
           na.value = "white",
-          limits = c(0, 300000000),
+          limits = c(0, 300),
           breaks = scales::breaks_extended(n = 10)))
     
     ggply$x$data[[33]]$hoverinfo <- "skip"
