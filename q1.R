@@ -69,6 +69,13 @@ q1_server <- function(input, output){
   })
   
   output$pollutionPlot2 <- renderPlotly({
+    
+    # This is a stupid hack!
+    # But otherwise data goes missing...
+    dat <- read_csv("data.csv")
+    dat <- dat %>% select(c("countryName","eprtrSectorName","facilityName","Longitude","Latitude","City","pollutant","emissions","reportingYear"))
+    # End of stupid hack...
+    
     grouped <- group_by(dat, countryName, reportingYear)
     meaned <- summarize(grouped, mean_emission = mean(emissions, na.rm=TRUE))
     
@@ -79,7 +86,7 @@ q1_server <- function(input, output){
       # assign ranking
       mutate(rank = 1:n()) %>%  
       filter(rank <= 10) %>%  
-      filter(reportingYear == 2018)
+      filter(reportingYear == input$yearId)
     
     ggplotly(
       ggplot(ranked_by_year) +  
