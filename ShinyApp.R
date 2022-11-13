@@ -7,6 +7,7 @@ library(rcartocolor)
 
 source('data.R')
 source('q1.R')
+source('q2.R')
 source('q3.R')
 source('q4.R')
 source('q5.R')
@@ -19,7 +20,7 @@ load_q5_data()
 ui <- navbarPage(
   title="My Application",
   q1_ui,
-  tabPanel("Question 2"),
+  q2_ui,
   q3_ui,
   q4_ui,
   q5_ui,
@@ -30,6 +31,7 @@ ui <- navbarPage(
 
 server <- function(input, output) {
   q1_server(input, output)
+  q2_server(input, output)
   output$pollutionPlot3 <- q3_server(input, output)
   output$pollutionPlot4 <- q4_server(input, output)
   output$pollutionPlot5 <- q5_server(input, output)
