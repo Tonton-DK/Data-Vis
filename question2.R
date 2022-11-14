@@ -1,8 +1,10 @@
 library(ggplot2)
 library(ggridges)
 library(gganimate)
+library(gifski)
 library(plotly)
 library(tidyverse)
+library(dplyr)
 
 dat <- read_csv("data.csv")
 dat <-
@@ -19,6 +21,7 @@ dat <-
       "reportingYear"
     )
   )
+dat <- dat %>% drop_na(eprtrSectorName)
 
 grouped <- group_by(dat, eprtrSectorName, reportingYear)
 meaned <-
@@ -32,66 +35,129 @@ meaned <-
   )
 
 # Line plot
-# line <-
-#   ggplot(meaned, aes(x = year,
-#                      y = emission,
-#                      color = eprtrSectorName)) +
-#   geom_line(size = 1) +
-#   geom_point() +
-#   scale_x_continuous(breaks = 2007:2020) +
-#   scale_y_continuous(breaks = scales::breaks_extended(n = 15)) +
-#   labs(
-#     title = "Sector pollution per year",
-#     x = "Year",
-#     y = "Emissions",
-#     color = "Sector"
-#   )
-#
-# ggplotly(line)
+ggplotly(
+  ggplot(meaned, aes(
+    x = year,
+    y = emission,
+    color = eprtrSectorName
+  )) +
+    geom_line(size = 1) +
+    geom_point() +
+    scale_x_continuous(breaks = 2007:2020) +
+    scale_y_continuous(breaks = scales::breaks_extended(n = 15)) +
+    labs(
+      title = "Sector pollution per year",
+      x = "Year",
+      y = "Emissions",
+      color = "Sector"
+    )
+)
 
-# violin
-# violin <-
-#   ggplot(meaned, aes(x = eprtrSectorName, y = emission)) +
-#   geom_violin() +
-#   scale_y_log10() +
-#   labs(
-#     title = "Sector pollution",
-#     x = "eprtrSectorName",
-#     y = "Emissions",
-#     color = "Year"
-#   )
-#
-# ggplotly(violin)
-
-# strip
-# strip <-
-#   ggplot(meaned, aes(x = eprtrSectorName, y = emission, color = year)) +
-#   geom_boxplot() +
-#   geom_jitter(position = position_jitter(0.1)) +
-#   scale_y_continuous(breaks = scales::breaks_extended(n = 15)) +
-#   scale_color_continuous(breaks = 2007:2020)
-# 
-# ggplotly(strip)
+# bar
+ranked_by_year <-
+  meaned %>%
+  group_by(year) %>%
+  arrange(year) %>%
+  mutate(rank = 1:n()) %>%
+  filter(rank <= 10)
 
 # bar <-
-#   ggplot(meaned, aes(x = eprtrSectorName, y = emission, fill = year)) +
-#   geom_bar(stat="identity", position=position_dodge()) +
-#   scale_y_continuous(breaks = scales::breaks_extended(n = 15)) +
-#   scale_fill_continuous(breaks = 2007:2020)
+#   ggplot(ranked_by_year) +
+#   aes(xmin = 0 ,
+#       xmax = emission / 1000000) +
+#   aes(ymin = rank - .45,
+#       ymax = rank + .45,
+#       y = rank) +
+#   geom_rect() +
+#   aes(fill = eprtrSectorName) +
+#   theme_bw() +
+#   theme(axis.title.y = element_blank(), axis.ticks.y = element_blank()) +
+#   # theme(legend.position = "none") +
+#   labs(title = 'Sector pollution',
+#        x = "Mean Emission",
+#        y = NULL,
+#        fill = "Sectors")
+#
 # bar
 
-# bar <-
-#   ggplot(data = meaned,
-#          aes(x = eprtrSectorName, y = emission, fill = eprtrSectorName)) +
+# https://evamaerey.github.io/little_flipbooks_library/racing_bars/racing_barcharts.html#10
+meaned %>%
+  # for each year we assign a rank
+  group_by(year) %>%
+  arrange(year, -emission) %>%
+  # assign ranking
+  mutate(rank = 1:n()) %>%
+  filter(rank <= 10) ->
+  ranked_by_year
+
+ranked_by_year %>%
+  ggplot() +
+  aes(xmin = 0 ,
+      xmax = emission / 1000000) +
+  aes(ymin = rank - .45,
+      ymax = rank + .45,
+      y = rank) +
+  facet_wrap( ~ year) +
+  geom_rect() +
+  aes(fill = eprtrSectorName) +
+  scale_fill_viridis_d(option = "magma",
+                       direction = -1) +
+  scale_y_reverse() +
+  labs(x = "Sectors", y = NULL, fill = NULL) +
+  theme(legend.position = "right") ->
+  bar
+
+ggplotly(bar)
+
+bar_anim <-
+  bar +
+  facet_null() +
+  scale_x_continuous(limits = c(0, 400),
+                     breaks = c(0, 100, 200, 300)) +
+  geom_text(
+    x = 100,
+    y = 5,
+    aes(label = as.character(year)),
+    size = 20,
+    col = "grey18"
+  ) +
+  aes(group = eprtrSectorName) +
+  transition_time(year)
+
+bar_anim
+
+# animate(plot = bar_anim, fps = 30, duration = 15, renderer = gifski_renderer())
+
+
+# bar <- ggplot(
+#   meaned,
+#   aes(
+#     x = factor(eprtrSectorName),
+#     y = emission / 1000000,
+#     fill = eprtrSectorName
+#   )
+# ) +
 #   geom_bar(stat = "identity") +
-#   theme_minimal() +
 #   theme(legend.position = "none") +
-#   labs(title = 'Sector pollution per year: {floor(frame_time)}', x = "Sectors", y = "Emissions") +
-#   transition_time(year) +
-#   coord_flip() +
-#   ease_aes('linear')
+#   labs(title = "Sector pollution",
+#        x = NULL,
+#        y = "Mean emission",
+#        fill = "Sectors") +
+#   coord_flip()
 #
-# animate(bar, renderer = ffmpeg_renderer())
+# ggplotly(bar)
+#
+# anim_bar <-
+#   bar +
+#   transition_states(year, transition_length = 2, state_length = 0) +
+#   ease_aes('quadratic-in-out') +
+#   labs(title = "Year {closest_state}") +
+#   coord_flip()
+#
+# animate(anim_bar,
+#         width = 600,
+#         height = 300,
+#         fps = 30)
 
 # ridgeline plot
 # ridge <-
@@ -103,17 +169,3 @@ meaned <-
 #   theme(legend.position="none",)
 #
 # ridge
-
-# normal density
-density <-
-  ggplot(data = meaned,
-         aes(x = emission, group = eprtrSectorName, fill = eprtrSectorName)) +
-  scale_x_log10() +
-  geom_density(adjust = 1, alpha = .5) +
-  theme_minimal() +
-  labs(title = 'Density sector pollution',
-       x = "Emissions",
-       y = "Density",
-       fill = "Sectors")
-
-ggplotly(density)
