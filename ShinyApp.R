@@ -6,6 +6,8 @@ library(plotly)
 library(rcartocolor)
 
 source('data.R')
+source('style.R')
+
 source('q1.R')
 source('q2.R')
 source('q3.R')

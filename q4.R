@@ -5,8 +5,6 @@ library(stringr)
 library(plotly)
 library(rcartocolor)
 
-#source('data.R')
-
 q4_ui <- tabPanel("Question 4", 
                   plotlyOutput("pollutionPlot4", 
                                width = "1600px", 

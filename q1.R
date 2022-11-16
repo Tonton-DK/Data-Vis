@@ -8,8 +8,6 @@ library(readr)
 library(paletteer)
 library(scales)
 
-#source('data.R')
-
 q1_ui <- tabPanel("Question 1",
                   sliderInput("yearId",
                               "Select a year",

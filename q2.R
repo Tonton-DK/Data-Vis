@@ -6,8 +6,6 @@ library(plotly)
 library(rcartocolor)
 library(treemapify)
 
-#source('data.R')
-
 q2_ui <- tabPanel(
   "Question 2",
   plotOutput("pollutionPlot1337",
