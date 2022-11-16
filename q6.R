@@ -31,7 +31,7 @@ q6_ui <- tabPanel(
 )
 
 q6_server <- function(input, output) {
-  renderPlotly({
+  output$pollutionPlot6 <- renderPlotly({
     ggply <- create_q6_plot(q6, input$orderby)
     ggply
   })

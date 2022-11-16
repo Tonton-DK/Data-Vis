@@ -13,7 +13,7 @@ q4_ui <- tabPanel("Question 4",
                                height = "800px"))
 
 q4_server <- function(input, output){
-  renderPlotly({
+  output$pollutionPlot4 <- renderPlotly({
     grouped <- group_by(dat, eprtrSectorName, reportingYear)
     meaned <- summarize(grouped, mean_emission = mean(emissions, na.rm=TRUE))
     meaned <- rename(meaned, sector = eprtrSectorName, year = reportingYear, emission = mean_emission)

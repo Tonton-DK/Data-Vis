@@ -27,7 +27,7 @@ q3_ui <- tabPanel("Question 3",
 )
 
 q3_server <- function(input, output){
-  renderPlotly({
+  output$pollutionPlot3 <- renderPlotly({
     if(input$grouping == "Country"){
       grouped <- group_by(dat, countryName, reportingYear)
       aes <- aes(

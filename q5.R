@@ -11,7 +11,7 @@ q5_ui <- tabPanel(
 )
 
 q5_server <- function(input, output){
-  renderPlotly({
+  output$pollutionPlot5 <- renderPlotly({
     plt1 <- create_q5_plot(q5)
     plt2 <- create_q5_plot(q5alt)
     subplot(plt1, plt2, nrows = 2, shareX = TRUE, shareY = TRUE)
