@@ -16,6 +16,7 @@ source('q6.R')
 # Ensures data isn't reloaded constantly
 load_q6_data()
 load_q5_data()
+load_q3_data()
 
 ui <- navbarPage(
   title="My Application",
