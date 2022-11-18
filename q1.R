@@ -16,10 +16,10 @@ q1_ui <- tabPanel("Question 1",
                               value = 2007,
                               sep = "",
                               animate = TRUE),
-                  plotlyOutput("pollutionPlot1", 
+                  plotlyOutput("pollutionPlot2", 
                                width = "800px", 
                                height = "800px"),
-                  plotlyOutput("pollutionPlot2", 
+                  plotlyOutput("pollutionPlot1", 
                                width = "800px", 
                                height = "800px")
 )
@@ -59,7 +59,7 @@ q1_server <- function(input, output){
           palette="Safe",
           name = "Mean emission (1000x tons)",
           na.value = "white",
-          limits = c(0, 300),
+          limits = c(0, 400),
           breaks = scales::breaks_extended(n = 10)))
     
     ggply$x$data[[33]]$hoverinfo <- "skip"
