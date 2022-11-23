@@ -30,6 +30,12 @@ country_ui <- tabPanel("Data by Countries",
                                         width = "800px",
                                         height = "800px")
                          ),
+                         tabPanel(
+                           title = "Country over time",
+                           plotlyOutput("pollutionPlot32",
+                                        width = "1200px",
+                                        height = "800px")
+                         ),
                          tabPanel("Capital pollution summarized",
                                   fluidPage(fluidRow(
                                     column(
@@ -151,6 +157,35 @@ q1_server <- function(input, output) {
           axis.line.y = element_blank()
         )
     )
+  })
+  
+  output$pollutionPlot32 <- renderPlotly({
+    grouped <- group_by(dat, countryName, reportingYear)
+    aes <- aes(x = year,
+               y = emission,
+               color = country)
+    meaned <-
+      summarize(grouped, mean_emission = mean(emissions, na.rm = TRUE))
+    meaned <-
+      rename(meaned,
+             country = countryName,
+             year = reportingYear,
+             emission = mean_emission)
+    
+    plt <- ggplot(meaned,
+                  aes) +
+      geom_point() +
+      geom_line() +
+      xlab("Year") +
+      ylab("Mean Emission (1000x tons)") +
+      scale_x_continuous(breaks = 2007:2020) +
+      scale_y_continuous(breaks = scales::breaks_extended(n = 15)) +
+      scale_color_manual(values = c(raw_cols)) +
+      geom_vline(xintercept = 2015,
+                 linetype = "dotted",
+                 colour = "darkblue")
+    
+    ggplotly(plt)
   })
 }
 

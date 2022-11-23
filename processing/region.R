@@ -10,8 +10,8 @@ region_ui <- tabPanel(
   selectInput(
     "grouping",
     label = "Choose a grouping type",
-    choices = list("Country", "Country by EU Region", "EU Region"),
-    selected = "Country"
+    choices = list("Country by EU Region", "EU Region"),
+    selected = "Country by EU Region"
   ),
   plotlyOutput("pollutionPlot3",
                width = "1200px",
@@ -20,33 +20,7 @@ region_ui <- tabPanel(
 
 q3_server <- function(input, output) {
   output$pollutionPlot3 <- renderPlotly({
-    if (input$grouping == "Country") {
-      grouped <- group_by(dat, countryName, reportingYear)
-      aes <- aes(x = year,
-                 y = emission,
-                 color = country)
-      meaned <-
-        summarize(grouped, mean_emission = mean(emissions, na.rm = TRUE))
-      meaned <-
-        rename(meaned,
-               country = countryName,
-               year = reportingYear,
-               emission = mean_emission)
-      
-      plt <- ggplot(meaned,
-                    aes) +
-        geom_point() +
-        geom_line() +
-        xlab("Year") +
-        ylab("Mean Emission (1000x tons)") +
-        scale_x_continuous(breaks = 2007:2020) +
-        scale_y_continuous(breaks = scales::breaks_extended(n = 15)) +
-        scale_color_manual(values = c(raw_cols)) +
-        geom_vline(xintercept = 2015,
-                   linetype = "dotted",
-                   colour = "darkblue")
-    }
-    else if (input$grouping == "Country by EU Region") {
+    if (input$grouping == "Country by EU Region") {
       grouped <- group_by(dat, region, countryName, reportingYear)
       aes <- aes(x = year,
                  y = emission,
