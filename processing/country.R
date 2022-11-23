@@ -9,54 +9,57 @@ library(paletteer)
 library(scales)
 library(tidyr)
 
-country_ui <- tabPanel("Data by Countries",
-                       navlistPanel(
-                         "Scope",
-                         tabPanel(
-                           title = "Country by year",
-                           sliderInput(
-                             "yearId",
-                             "Select a year",
-                             min = 2007,
-                             max = 2020,
-                             value = 2007,
-                             sep = "",
-                             animate = TRUE
-                           ),
-                           plotlyOutput("pollutionPlot2",
-                                        width = "800px",
-                                        height = "400px"),
-                           plotlyOutput("pollutionPlot1",
-                                        width = "800px",
-                                        height = "800px")
-                         ),
-                         tabPanel(
-                           title = "Country over time",
-                           plotlyOutput("pollutionPlot32",
-                                        width = "1200px",
-                                        height = "800px")
-                         ),
-                         tabPanel("Capital pollution summarized",
-                                  fluidPage(fluidRow(
-                                    column(
-                                      width = 2,
-                                      style = "margin-top: 47px; max-width: 140px;",
-                                      radioButtons(
-                                        "orderby",
-                                        "Order by:",
-                                        c("Capital" = "cap",
-                                          "Non-capital" = "ncap",
-                                          "Country")
-                                      )
-                                    ),
-                                    column(
-                                      width = 10,
-                                      plotlyOutput("pollutionPlot6",
-                                                   width = "1200px",
-                                                   height = "800px")
-                                    )
-                                  )))
-                       ))
+country_ui <- tabPanel(
+  "Data by Countries",
+  navlistPanel(
+    "Scope",
+    widths = c(2, 8),
+    tabPanel(
+      title = "Country by year",
+      sliderInput(
+        "yearId",
+        "Select a year",
+        min = 2007,
+        max = 2020,
+        value = 2007,
+        sep = "",
+        animate = TRUE
+      ),
+      plotlyOutput("pollutionPlot2",
+                   width = "800px",
+                   height = "400px"),
+      plotlyOutput("pollutionPlot1",
+                   width = "800px",
+                   height = "800px")
+    ),
+    tabPanel(
+      title = "Country over time",
+      plotlyOutput("pollutionPlot32",
+                   width = "1200px",
+                   height = "800px")
+    ),
+    tabPanel("Capital pollution summarized",
+             fluidPage(fluidRow(
+               column(
+                 width = 2,
+                 style = "margin-top: 47px; max-width: 140px;",
+                 radioButtons(
+                   "orderby",
+                   "Order by:",
+                   c("Capital" = "cap",
+                     "Non-capital" = "ncap",
+                     "Country")
+                 )
+               ),
+               column(
+                 width = 10,
+                 plotlyOutput("pollutionPlot6",
+                              width = "1200px",
+                              height = "800px")
+               )
+             )))
+  )
+)
 
 q1_server <- function(input, output) {
   output$pollutionPlot1 <- renderPlotly({
@@ -119,7 +122,7 @@ q1_server <- function(input, output) {
     ranked_by_year <- meaned %>%
       # for each year we assign a rank
       group_by(reportingYear) %>%
-      arrange(reportingYear,-mean_emission) %>%
+      arrange(reportingYear, -mean_emission) %>%
       # assign ranking
       mutate(rank = 1:n()) %>%
       filter(rank <= 10) %>%
@@ -216,7 +219,7 @@ load_q6_data <- function() {
 
 create_q6_plot <- function(df, order) {
   lim = c(-400, 400)
-  brk = c(-400,-300,-200,-100, 0, 100, 200, 300, 400)
+  brk = c(-400, -300, -200, -100, 0, 100, 200, 300, 400)
   lbl = c(400, 300, 200, 100, 0, 100, 200, 300, 400)
   
   inner_plt <- ggplot(q6,

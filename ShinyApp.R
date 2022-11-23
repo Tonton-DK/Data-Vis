@@ -18,13 +18,11 @@ load_q6_data()
 load_q5_data()
 load_q3_data()
 
-ui <- navbarPage(
-  title="European Environment Agency Polution Reporting",
-  country_ui,
-  region_ui,
-  sector_ui,
-  emission_ui
-)
+ui <- navbarPage(title = "European Environment Agency Polution Reporting",
+                 country_ui,
+                 region_ui,
+                 sector_ui,
+                 emission_ui)
 
 server <- function(input, output) {
   q1_server(input, output)
@@ -35,4 +33,4 @@ server <- function(input, output) {
   q6_server(input, output)
 }
 
-shinyApp(ui,server)
+shinyApp(ui, server)

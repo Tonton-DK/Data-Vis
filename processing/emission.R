@@ -4,9 +4,17 @@ library(dplyr)
 library(plotly)
 
 emission_ui <- tabPanel("Data by Emissions",
-                        plotlyOutput("pollutionPlot5",
-                                     width = "1200px",
-                                     height = "800px"))
+                        
+                        navlistPanel(
+                          "Scope",
+                          widths = c(2, 8),
+                          tabPanel(
+                            title = "Over time",
+                            plotlyOutput("pollutionPlot5",
+                                         width = "1200px",
+                                         height = "800px")
+                          )
+                        ))
 
 q5_server <- function(input, output) {
   output$pollutionPlot5 <- renderPlotly({

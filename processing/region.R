@@ -5,58 +5,57 @@ library(stringr)
 library(plotly)
 library(rcartocolor)
 
-region_ui <- tabPanel(
-  "Data by Regions",
-  
-  navlistPanel(
-    "Scope",
-    tabPanel(
-      title = "Countries",
-      plotlyOutput("pollutionPlot3c",
-                   width = "1200px",
-                   height = "800px")
-    ),
-    
-    tabPanel(
-      "Regions",
-      plotlyOutput("pollutionPlot3r",
-                   width = "1200px",
-                   height = "800px")
-    )
-  )
-)
+region_ui <- tabPanel("Data by Regions",
+                      
+                      navlistPanel(
+                        "Scope",
+                        widths = c(2, 8),
+                        tabPanel(
+                          title = "Countries",
+                          plotlyOutput("pollutionPlot3c",
+                                       width = "1200px",
+                                       height = "800px")
+                        ),
+                        
+                        tabPanel(
+                          "Regions",
+                          plotlyOutput("pollutionPlot3r",
+                                       width = "1200px",
+                                       height = "800px")
+                        )
+                      ))
 
 q3_server <- function(input, output) {
   output$pollutionPlot3c <- renderPlotly({
-      grouped <- group_by(dat, region, countryName, reportingYear)
-      aes <- aes(x = year,
-                 y = emission,
-                 color = country)
-      meaned <-
-        summarize(grouped, mean_emission = mean(emissions, na.rm = TRUE))
-      meaned <-
-        rename(meaned,
-               country = countryName,
-               year = reportingYear,
-               emission = mean_emission)
-      
-      plt <- ggplot(meaned,
-                    aes) +
-        geom_point() +
-        geom_line() +
-        xlab("Year") +
-        ylab("Mean Emission (1000x tons)") +
-        scale_x_continuous(breaks = 2007:2020) +
-        scale_y_continuous(breaks = scales::breaks_extended(n = 15)) +
-        facet_wrap( ~ region) +
-        scale_color_manual(values = c(raw_cols)) +
-        geom_vline(xintercept = 2015,
-                   linetype = "dotted",
-                   colour = "darkblue")
+    grouped <- group_by(dat, region, countryName, reportingYear)
+    aes <- aes(x = year,
+               y = emission,
+               color = country)
+    meaned <-
+      summarize(grouped, mean_emission = mean(emissions, na.rm = TRUE))
+    meaned <-
+      rename(meaned,
+             country = countryName,
+             year = reportingYear,
+             emission = mean_emission)
+    
+    plt <- ggplot(meaned,
+                  aes) +
+      geom_point() +
+      geom_line() +
+      xlab("Year") +
+      ylab("Mean Emission (1000x tons)") +
+      scale_x_continuous(breaks = 2007:2020) +
+      scale_y_continuous(breaks = scales::breaks_extended(n = 15)) +
+      facet_wrap(~ region) +
+      scale_color_manual(values = c(raw_cols)) +
+      geom_vline(xintercept = 2015,
+                 linetype = "dotted",
+                 colour = "darkblue")
     
     ggplotly(plt)
   })
-
+  
   output$pollutionPlot3r <- renderPlotly({
     grouped <- group_by(dat, region, reportingYear)
     aes <- aes(x = year,
@@ -125,7 +124,7 @@ load_q3_data <- function() {
   ranked_by_year <- meaned %>%
     # for each year we assign a rank
     group_by(reportingYear) %>%
-    arrange(reportingYear,-mean_emission) %>%
+    arrange(reportingYear, -mean_emission) %>%
     # assign ranking
     mutate(rank = 1:n()) %>%
     filter(rank <= 10) %>%

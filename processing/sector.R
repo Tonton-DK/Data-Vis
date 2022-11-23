@@ -10,6 +10,7 @@ sector_ui <- tabPanel("Data by Sectors",
                       
                       navlistPanel(
                         "Scope",
+                        widths = c(2, 8),
                         tabPanel(
                           title = "Over time",
                           plotlyOutput("pollutionPlot4",
