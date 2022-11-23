@@ -5,12 +5,12 @@ library(stringr)
 library(plotly)
 library(rcartocolor)
 
-dat <- read_csv("data.csv")
+dat <- read_csv("data/data.csv")
 dat <- dat %>% select(c("countryName","eprtrSectorName","facilityName","Longitude","Latitude","City","pollutant","emissions","reportingYear"))
-regions <- read_csv("regions.csv")
+regions <- read_csv("data/regions.csv")
 dat <- inner_join(dat, regions, by = "countryName")
 countries <- dat %>% distinct(countryName)
-capitals <- read_csv("capitals.csv")
+capitals <- read_csv("data/capitals.csv")
 capitals <- capitals %>% mutate(country = countryName) # 
 
 # Flag capitals

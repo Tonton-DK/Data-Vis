@@ -8,10 +8,10 @@ library(rcartocolor)
 source('data.R')
 source('style.R')
 
-source('q1.R')
-source('q2.R')
-source('q3.R')
-source('q5.R')
+source('country.R')
+source('region.R')
+source('sector.R')
+source('emission.R')
 
 # Ensures data isn't reloaded constantly
 load_q6_data()
@@ -20,10 +20,10 @@ load_q3_data()
 
 ui <- navbarPage(
   title="European Environment Agency Polution Reporting",
-  q1_ui,
-  q3_ui,
-  q2_ui,
-  q5_ui
+  country_ui,
+  region_ui,
+  sector_ui,
+  emission_ui
 )
 
 server <- function(input, output) {
