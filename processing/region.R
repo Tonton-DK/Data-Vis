@@ -5,7 +5,7 @@ library(stringr)
 library(plotly)
 library(rcartocolor)
 
-q3_ui <- tabPanel(
+region_ui <- tabPanel(
   "Data by Regions", 
    selectInput("grouping",
                label = "Choose a grouping type",
@@ -88,9 +88,9 @@ q3_server <- function(input, output){
 }
 
 load_q3_data <- function(){
-  dat <- read_csv("data.csv")
+  dat <- read_csv("data/data.csv")
   dat <- dat %>% select(c("countryName","eprtrSectorName","facilityName","Longitude","Latitude","City","pollutant","emissions","reportingYear"))
-  reg <- read_csv("regions.csv")
+  reg <- read_csv("data/regions.csv")
   
   grouped <- group_by(dat, countryName, reportingYear)
   meaned <- summarize(grouped, mean_emission = mean(emissions, na.rm=TRUE))

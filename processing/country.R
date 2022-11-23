@@ -9,7 +9,7 @@ library(paletteer)
 library(scales)
 library(tidyr)
 
-q1_ui <- tabPanel(
+country_ui <- tabPanel(
   "Data by Countries",
   sliderInput("yearId",
               "Select a year",

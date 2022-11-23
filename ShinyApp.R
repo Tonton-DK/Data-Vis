@@ -5,13 +5,13 @@ library(stringr)
 library(plotly)
 library(rcartocolor)
 
-source('data.R')
-source('style.R')
+source('ingestion/data.R')
+source('ingestion/style.R')
 
-source('country.R')
-source('region.R')
-source('sector.R')
-source('emission.R')
+source('processing/country.R')
+source('processing/region.R')
+source('processing/sector.R')
+source('processing/emission.R')
 
 # Ensures data isn't reloaded constantly
 load_q6_data()

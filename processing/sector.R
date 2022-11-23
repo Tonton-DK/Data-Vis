@@ -6,7 +6,7 @@ library(plotly)
 library(rcartocolor)
 library(treemapify)
 
-q2_ui <- tabPanel(
+sector_ui <- tabPanel(
   "Data by Sectors",
   plotOutput("pollutionPlot1337",
              width = "100%",
@@ -21,7 +21,7 @@ q2_ui <- tabPanel(
 
 q2_server <- function(input, output) {
   output$pollutionPlot1337 <- renderPlot({
-    dat <- read_csv("data.csv")
+    dat <- read_csv("data/data.csv")
     dat <-
       dat %>% select(
         c(
@@ -62,7 +62,7 @@ q2_server <- function(input, output) {
   })
   
   output$pollutionPlot1338 <- renderPlotly({
-    dat <- read_csv("data.csv")
+    dat <- read_csv("data/data.csv")
     dat <-
       dat %>% select(
         c(

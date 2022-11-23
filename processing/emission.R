@@ -3,7 +3,7 @@ library(ggplot2)
 library(dplyr)
 library(plotly)
 
-q5_ui <- tabPanel(
+emission_ui <- tabPanel(
   "Data by Emissions",
   plotlyOutput("pollutionPlot5",
     width = "1200px",
