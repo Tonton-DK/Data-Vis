@@ -4,7 +4,7 @@ library(dplyr)
 library(plotly)
 
 q5_ui <- tabPanel(
-  "Question 5",
+  "Data by Emissions",
   plotlyOutput("pollutionPlot5",
     width = "1200px",
     height = "800px")
