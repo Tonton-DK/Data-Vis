@@ -6,18 +6,27 @@ library(plotly)
 library(rcartocolor)
 library(treemapify)
 
-sector_ui <- tabPanel(
-  "Data by Sectors",
-  plotOutput("pollutionPlot1337",
-             width = "100%",
-             height = "800px"),
-  plotlyOutput("pollutionPlot1338",
-               width = "100%",
-               height = "800px"),
-  plotlyOutput("pollutionPlot4", 
-               width = "1600px", 
-               height = "800px")
-)
+sector_ui <- tabPanel("Data by Sectors",
+                      
+                      navlistPanel(
+                        "Scope",
+                        tabPanel(
+                          title = "Over time",
+                          plotlyOutput("pollutionPlot4",
+                                       width = "1600px",
+                                       height = "800px")
+                        ),
+                        
+                        tabPanel(
+                          "Summarized",
+                          plotOutput("pollutionPlot1337",
+                                     width = "100%",
+                                     height = "800px"),
+                          plotlyOutput("pollutionPlot1338",
+                                       width = "100%",
+                                       height = "800px")
+                        )
+                      ))
 
 q2_server <- function(input, output) {
   output$pollutionPlot1337 <- renderPlot({
@@ -97,29 +106,35 @@ q2_server <- function(input, output) {
         coord_flip() +
         labs(title = "Overall sector pollution", x = NULL, y = NULL) +
         theme(legend.position = "none") +
-        scale_y_continuous(breaks = scales::breaks_extended(n=15))
+        scale_y_continuous(breaks = scales::breaks_extended(n = 15))
     )
   })
 }
 
-q4_server <- function(input, output){
+q4_server <- function(input, output) {
   output$pollutionPlot4 <- renderPlotly({
     grouped <- group_by(dat, eprtrSectorName, reportingYear)
-    meaned <- summarize(grouped, mean_emission = mean(emissions, na.rm=TRUE))
-    meaned <- rename(meaned, sector = eprtrSectorName, year = reportingYear, emission = mean_emission)
+    meaned <-
+      summarize(grouped, mean_emission = mean(emissions, na.rm = TRUE))
+    meaned <-
+      rename(meaned,
+             sector = eprtrSectorName,
+             year = reportingYear,
+             emission = mean_emission)
     ggplotly(
-      ggplot(
-        meaned, 
-        aes(
-          x = year,
-          y = emission,
-          color=sector)) +
+      ggplot(meaned,
+             aes(
+               x = year,
+               y = emission,
+               color = sector
+             )) +
         geom_point() +
         geom_line() +
         xlab("Reporting year") +
         ylab("Mean Emission (1000x tons)") +
-        scale_x_continuous(breaks=2007:2020) +
-        scale_y_continuous(breaks = scales::breaks_extended(n=15)) +
-        scale_color_carto_d(palette="Safe",direction=-1))
+        scale_x_continuous(breaks = 2007:2020) +
+        scale_y_continuous(breaks = scales::breaks_extended(n = 15)) +
+        scale_color_carto_d(palette = "Safe", direction = -1)
+    )
   })
 }

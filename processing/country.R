@@ -9,126 +9,147 @@ library(paletteer)
 library(scales)
 library(tidyr)
 
-country_ui <- tabPanel(
-  "Data by Countries",
-  sliderInput("yearId",
-              "Select a year",
-              min = 2007,
-              max = 2020,
-              value = 2007,
-              sep = "",
-              animate = TRUE),
-  plotlyOutput("pollutionPlot2", 
-               width = "800px", 
-               height = "400px"),
-  plotlyOutput("pollutionPlot1", 
-               width = "800px", 
-               height = "800px"),
-  fluidPage(
-    fluidRow(
-      column(
-        width = 2,
-        style = "margin-top: 47px; max-width: 140px;",
-        radioButtons(
-          "orderby", "Order by:",
-          c(
-            "Capital" = "cap",
-            "Non-capital" = "ncap",
-            "Country")
-        )
-      ),
-      column(
-        width = 10,
-        plotlyOutput(
-          "pollutionPlot6", 
-          width = "1200px", 
-          height = "800px")
-      )
-    )
-  )
-)
+country_ui <- tabPanel("Data by Countries",
+                       navlistPanel(
+                         "Scope",
+                         tabPanel(
+                           title = "Country by year",
+                           sliderInput(
+                             "yearId",
+                             "Select a year",
+                             min = 2007,
+                             max = 2020,
+                             value = 2007,
+                             sep = "",
+                             animate = TRUE
+                           ),
+                           plotlyOutput("pollutionPlot2",
+                                        width = "800px",
+                                        height = "400px"),
+                           plotlyOutput("pollutionPlot1",
+                                        width = "800px",
+                                        height = "800px")
+                         ),
+                         tabPanel("Capital pollution summarized",
+                                  fluidPage(fluidRow(
+                                    column(
+                                      width = 2,
+                                      style = "margin-top: 47px; max-width: 140px;",
+                                      radioButtons(
+                                        "orderby",
+                                        "Order by:",
+                                        c("Capital" = "cap",
+                                          "Non-capital" = "ncap",
+                                          "Country")
+                                      )
+                                    ),
+                                    column(
+                                      width = 10,
+                                      plotlyOutput("pollutionPlot6",
+                                                   width = "1200px",
+                                                   height = "800px")
+                                    )
+                                  )))
+                       ))
 
-q1_server <- function(input, output){
+q1_server <- function(input, output) {
   output$pollutionPlot1 <- renderPlotly({
-    filtered = dat %>% filter(reportingYear==input$yearId)
+    filtered = dat %>% filter(reportingYear == input$yearId)
     
-    grouped <- group_by(filtered, countryName) 
-    meaned <- summarize(grouped, mean_emission = mean(emissions, na.rm=TRUE)) 
+    grouped <- group_by(filtered, countryName)
+    meaned <-
+      summarize(grouped, mean_emission = mean(emissions, na.rm = TRUE))
     meaned <- countries %>% left_join(meaned, by = "countryName")
-    mutated <- mutate(
-      meaned,
-      region = ifelse(countryName == "Czechia", "Czech Republic",
-                      ifelse(countryName == "United Kingdom", "UK", countryName)))
+    mutated <- mutate(meaned,
+                      region = ifelse(
+                        countryName == "Czechia",
+                        "Czech Republic",
+                        ifelse(countryName == "United Kingdom", "UK", countryName)
+                      ))
     
-    mapdata <- map_data("world") %>% 
+    mapdata <- map_data("world") %>%
       inner_join(mutated, by = "region")
-    mapdata <- rename(mapdata, country = countryName, emission = mean_emission)
+    mapdata <-
+      rename(mapdata, country = countryName, emission = mean_emission)
     
-    labels <- mapdata %>% 
-      group_by(region) %>%  
-      select(region, group, long, lat) %>%  
+    labels <- mapdata %>%
+      group_by(region) %>%
+      select(region, group, long, lat) %>%
       summarise_all(mean)
     
     ggply <- ggplotly(
-      ggplot(
-        mapdata, 
-        aes(
-          x = long, 
-          y = lat, 
-          group = group, 
-          label = country)) + 
+      ggplot(mapdata,
+             aes(
+               x = long,
+               y = lat,
+               group = group,
+               label = country
+             )) +
         geom_polygon(aes(fill = emission), color = "black") +
-        geom_text(data = labels, aes(label = region), colour = "blue", size = 3) + 
+        geom_text(
+          data = labels,
+          aes(label = region),
+          colour = "blue",
+          size = 3
+        ) +
         scale_fill_carto_c(
-          palette="Safe",
+          palette = "Safe",
           name = "Mean emission (1000x tons)",
           na.value = "white",
           limits = c(0, 400),
-          breaks = scales::breaks_extended(n = 10)))
+          breaks = scales::breaks_extended(n = 10)
+        )
+    )
     
     ggply$x$data[[33]]$hoverinfo <- "skip"
     ggply
   })
   
   output$pollutionPlot2 <- renderPlotly({
-    
     grouped <- group_by(dat, countryName, reportingYear)
-    meaned <- summarize(grouped, mean_emission = mean(emissions, na.rm=TRUE))
+    meaned <-
+      summarize(grouped, mean_emission = mean(emissions, na.rm = TRUE))
     
-    ranked_by_year <- meaned %>%  
+    ranked_by_year <- meaned %>%
       # for each year we assign a rank
-      group_by(reportingYear) %>% 
-      arrange(reportingYear, -mean_emission) %>%  
+      group_by(reportingYear) %>%
+      arrange(reportingYear,-mean_emission) %>%
       # assign ranking
-      mutate(rank = 1:n()) %>%  
-      filter(rank <= 10) %>%  
+      mutate(rank = 1:n()) %>%
+      filter(rank <= 10) %>%
       filter(reportingYear == input$yearId)
     
     ggplotly(
-      ggplot(ranked_by_year) +  
-        aes(xmin = 0 ,  
-            xmax = mean_emission) +  
-        aes(ymin = rank - .45,  
-            ymax = rank + .45,  
-            y = rank) +  
-        geom_rect(alpha = .7) +  
-        aes(fill = countryName) +  
-        scale_fill_viridis_d(option = "magma", direction = -1) +  
+      ggplot(ranked_by_year) +
+        aes(xmin = 0 ,
+            xmax = mean_emission) +
+        aes(
+          ymin = rank - .45,
+          ymax = rank + .45,
+          y = rank
+        ) +
+        geom_rect(alpha = .7) +
+        aes(fill = countryName) +
+        scale_fill_viridis_d(option = "magma", direction = -1) +
         scale_x_continuous(
-          limits = c(-150, 400),  
-          breaks = c(0, 100, 200, 300, 400)) +  
-        geom_text(col = "gray13",  
-                  hjust = "right",  
-                  aes(label = countryName),  
-                  x = -50) +  
-        scale_y_reverse() +  
-        labs(fill = NULL) +  
-        labs(x = 'Mean Emission') +  
+          limits = c(-150, 400),
+          breaks = c(0, 100, 200, 300, 400)
+        ) +
+        geom_text(
+          col = "gray13",
+          hjust = "right",
+          aes(label = countryName),
+          x = -50
+        ) +
+        scale_y_reverse() +
+        labs(fill = NULL) +
+        labs(x = 'Mean Emission') +
         labs(y = "Rank") +
         theme(
           axis.text.y = element_blank(),
           axis.ticks.y = element_blank(),
-          axis.line.y = element_blank())
+          axis.line.y = element_blank()
+        )
     )
   })
 }
@@ -160,33 +181,39 @@ load_q6_data <- function() {
 
 create_q6_plot <- function(df, order) {
   lim = c(-400, 400)
-  brk = c(-400, -300, -200, -100, 0, 100, 200, 300, 400)
+  brk = c(-400,-300,-200,-100, 0, 100, 200, 300, 400)
   lbl = c(400, 300, 200, 100, 0, 100, 200, 300, 400)
   
-  inner_plt <- ggplot(
-    q6,
-    aes(
-      x = {
-        if (order == "cap") {
-          reorder(countryName, order_cap, decreasing = T)
-        }
-        else if (order == "ncap") {
-          reorder(countryName, order_ncap, decreasing = F, sum, order = T)
-        }
-        else {
-          countryName
-        }
-      },
-      y = mean_emission,
-      text = paste(
-        "Country:\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t", countryName,
-        "<br>Mean emission:\t\t\t\t\t\t", round(abs(mean_emission), 2),
-        "<br>Pollution in capital:\t", isCapital
-      )
-    )) 
+  inner_plt <- ggplot(q6,
+                      aes(
+                        x = {
+                          if (order == "cap") {
+                            reorder(countryName, order_cap, decreasing = T)
+                          }
+                          else if (order == "ncap") {
+                            reorder(countryName,
+                                    order_ncap,
+                                    decreasing = F,
+                                    sum,
+                                    order = T)
+                          }
+                          else {
+                            countryName
+                          }
+                        },
+                        y = mean_emission,
+                        text = paste(
+                          "Country:\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+                          countryName,
+                          "<br>Mean emission:\t\t\t\t\t\t",
+                          round(abs(mean_emission), 2),
+                          "<br>Pollution in capital:\t",
+                          isCapital
+                        )
+                      ))
   
   plt <- ggplotly(
-    inner_plt + 
+    inner_plt +
       geom_bar(
         stat = "identity",
         width = 0.3,
@@ -199,7 +226,11 @@ create_q6_plot <- function(df, order) {
         expand = c(0, 0)
       ) +
       geom_point(aes(fill = isCapital), size = 3, stroke = 0) +
-      geom_point(aes(x = countryName, y = NA_val, fill = "NA"), size = 3, stroke = 0) +
+      geom_point(
+        aes(x = countryName, y = NA_val, fill = "NA"),
+        size = 3,
+        stroke = 0
+      ) +
       labs(
         x = "Country",
         y = "Mean emission (1000x tons)",
