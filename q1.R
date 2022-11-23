@@ -8,7 +8,7 @@ library(readr)
 library(paletteer)
 library(scales)
 
-q1_ui <- tabPanel("Question 1",
+q1_ui <- tabPanel("Data by Countries",
                   sliderInput("yearId",
                               "Select a year",
                               min = 2007,

@@ -21,15 +21,13 @@ load_q5_data()
 load_q3_data()
 
 ui <- navbarPage(
-  title="My Application",
+  title="European Environment Agency Polution Reporting",
   q1_ui,
   q2_ui,
   q3_ui,
   q4_ui,
   q5_ui,
-  q6_ui,
-  tabPanel("Question 7"),
-  tabPanel("Question 8")
+  q6_ui
 )
 
 server <- function(input, output) {

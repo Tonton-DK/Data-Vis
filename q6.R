@@ -5,7 +5,7 @@ library(dplyr)
 library(plotly)
 
 q6_ui <- tabPanel(
-  "Question 6",
+  "Data by Regions",
   fluidPage(
     fluidRow(
       column(

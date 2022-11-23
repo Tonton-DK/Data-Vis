@@ -7,7 +7,7 @@ library(rcartocolor)
 
 source('style.R')
 
-q3_ui <- tabPanel("Question 3", 
+q3_ui <- tabPanel("Data by Emissions", 
                   selectInput("grouping",
                               label = "Choose a grouping type",
                               choices = list("Country", "Country by EU Region", "EU Region"),

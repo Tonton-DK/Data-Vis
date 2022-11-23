@@ -7,7 +7,7 @@ library(rcartocolor)
 library(treemapify)
 
 q2_ui <- tabPanel(
-  "Question 2",
+  "Data by Sectors",
   plotOutput("pollutionPlot1337",
              width = "100%",
              height = "800px"),
