@@ -7,20 +7,27 @@ library(rcartocolor)
 
 region_ui <- tabPanel(
   "Data by Regions",
-  selectInput(
-    "grouping",
-    label = "Choose a grouping type",
-    choices = list("Country by EU Region", "EU Region"),
-    selected = "Country by EU Region"
-  ),
-  plotlyOutput("pollutionPlot3",
-               width = "1200px",
-               height = "800px")
+  
+  navlistPanel(
+    "Scope",
+    tabPanel(
+      title = "Countries",
+      plotlyOutput("pollutionPlot3c",
+                   width = "1200px",
+                   height = "800px")
+    ),
+    
+    tabPanel(
+      "Regions",
+      plotlyOutput("pollutionPlot3r",
+                   width = "1200px",
+                   height = "800px")
+    )
+  )
 )
 
 q3_server <- function(input, output) {
-  output$pollutionPlot3 <- renderPlotly({
-    if (input$grouping == "Country by EU Region") {
+  output$pollutionPlot3c <- renderPlotly({
       grouped <- group_by(dat, region, countryName, reportingYear)
       aes <- aes(x = year,
                  y = emission,
@@ -46,30 +53,32 @@ q3_server <- function(input, output) {
         geom_vline(xintercept = 2015,
                    linetype = "dotted",
                    colour = "darkblue")
-    }
-    else if (input$grouping == "EU Region") {
-      grouped <- group_by(dat, region, reportingYear)
-      aes <- aes(x = year,
-                 y = emission,
-                 color = region)
-      meaned <-
-        summarize(grouped, mean_emission = mean(emissions, na.rm = TRUE))
-      meaned <-
-        rename(meaned, year = reportingYear, emission = mean_emission)
-      
-      plt <- ggplot(meaned,
-                    aes) +
-        geom_point() +
-        geom_line() +
-        xlab("Year") +
-        ylab("Mean Emission (1000x tons)") +
-        scale_x_continuous(breaks = 2007:2020) +
-        scale_y_continuous(breaks = scales::breaks_extended(n = 15)) +
-        scale_color_manual(values = c(raw_cols)) +
-        geom_vline(xintercept = 2015,
-                   linetype = "dotted",
-                   colour = "darkblue")
-    }
+    
+    ggplotly(plt)
+  })
+
+  output$pollutionPlot3r <- renderPlotly({
+    grouped <- group_by(dat, region, reportingYear)
+    aes <- aes(x = year,
+               y = emission,
+               color = region)
+    meaned <-
+      summarize(grouped, mean_emission = mean(emissions, na.rm = TRUE))
+    meaned <-
+      rename(meaned, year = reportingYear, emission = mean_emission)
+    
+    plt <- ggplot(meaned,
+                  aes) +
+      geom_point() +
+      geom_line() +
+      xlab("Year") +
+      ylab("Mean Emission (1000x tons)") +
+      scale_x_continuous(breaks = 2007:2020) +
+      scale_y_continuous(breaks = scales::breaks_extended(n = 15)) +
+      scale_color_manual(values = c(raw_cols)) +
+      geom_vline(xintercept = 2015,
+                 linetype = "dotted",
+                 colour = "darkblue")
     
     ggplotly(plt)
   })
