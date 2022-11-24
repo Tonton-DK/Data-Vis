@@ -14,24 +14,34 @@ country_ui <- tabPanel(
   navlistPanel(
     "Scope",
     widths = c(2, 8),
-    tabPanel(
-      title = "Country by year",
-      sliderInput(
-        "yearId",
-        "Select a year",
-        min = 2007,
-        max = 2020,
-        value = 2007,
-        sep = "",
-        animate = TRUE
-      ),
-      plotlyOutput("pollutionPlot2",
-                   width = "800px",
-                   height = "400px"),
-      plotlyOutput("pollutionPlot1",
-                   width = "800px",
-                   height = "800px")
-    ),
+    tabPanel(title = "Country by year",
+             sidebarLayout(
+               sidebarPanel(
+                 sliderInput(
+                   "yearId",
+                   "Select a year",
+                   min = 2007,
+                   max = 2020,
+                   value = 2007,
+                   sep = "",
+                   animate = TRUE
+                 )
+               ),
+               mainPanel(tabsetPanel(
+                 tabPanel(
+                   "Top-10",
+                   plotlyOutput("pollutionPlot2",
+                                width = "800px",
+                                height = "400px")
+                 ),
+                 tabPanel(
+                   "Map",
+                   plotlyOutput("pollutionPlot1",
+                                width = "800px",
+                                height = "800px")
+                 )
+               ))
+             )),
     tabPanel(
       title = "Country over time",
       plotlyOutput("pollutionPlot32",
@@ -122,7 +132,7 @@ q1_server <- function(input, output) {
     ranked_by_year <- meaned %>%
       # for each year we assign a rank
       group_by(reportingYear) %>%
-      arrange(reportingYear, -mean_emission) %>%
+      arrange(reportingYear,-mean_emission) %>%
       # assign ranking
       mutate(rank = 1:n()) %>%
       filter(rank <= 10) %>%
@@ -219,7 +229,7 @@ load_q6_data <- function() {
 
 create_q6_plot <- function(df, order) {
   lim = c(-400, 400)
-  brk = c(-400, -300, -200, -100, 0, 100, 200, 300, 400)
+  brk = c(-400,-300,-200,-100, 0, 100, 200, 300, 400)
   lbl = c(400, 300, 200, 100, 0, 100, 200, 300, 400)
   
   inner_plt <- ggplot(q6,
