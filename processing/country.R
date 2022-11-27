@@ -8,6 +8,7 @@ library(readr)
 library(paletteer)
 library(scales)
 library(tidyr)
+library(ggthemes)
 
 country_ui <- tabPanel(
   "Data by Countries",
@@ -74,7 +75,7 @@ country_ui <- tabPanel(
 q1_server <- function(input, output) {
   output$pollutionPlot1 <- renderPlotly({
     filtered = dat %>% filter(reportingYear == input$yearId)
-    
+
     grouped <- group_by(filtered, countryName)
     meaned <-
       summarize(grouped, mean_emission = mean(emissions, na.rm = TRUE))
@@ -85,17 +86,17 @@ q1_server <- function(input, output) {
                         "Czech Republic",
                         ifelse(countryName == "United Kingdom", "UK", countryName)
                       ))
-    
+
     mapdata <- map_data("world") %>%
       inner_join(mutated, by = "region")
     mapdata <-
       rename(mapdata, country = countryName, emission = mean_emission)
-    
+
     labels <- mapdata %>%
       group_by(region) %>%
       select(region, group, long, lat) %>%
       summarise_all(mean)
-    
+
     ggply <- ggplotly(
       ggplot(mapdata,
              aes(
@@ -119,16 +120,16 @@ q1_server <- function(input, output) {
           breaks = scales::breaks_extended(n = 10)
         )
     )
-    
+
     ggply$x$data[[33]]$hoverinfo <- "skip"
     ggply
   })
-  
+
   output$pollutionPlot2 <- renderPlotly({
     grouped <- group_by(dat, countryName, reportingYear)
     meaned <-
       summarize(grouped, mean_emission = mean(emissions, na.rm = TRUE))
-    
+
     ranked_by_year <- meaned %>%
       # for each year we assign a rank
       group_by(reportingYear) %>%
@@ -137,7 +138,7 @@ q1_server <- function(input, output) {
       mutate(rank = 1:n()) %>%
       filter(rank <= 10) %>%
       filter(reportingYear == input$yearId)
-    
+
     ggplotly(
       ggplot(ranked_by_year) +
         aes(xmin = 0 ,
@@ -171,7 +172,7 @@ q1_server <- function(input, output) {
         )
     )
   })
-  
+
   output$pollutionPlot32 <- renderPlotly({
     grouped <- group_by(dat, countryName, reportingYear)
     aes <- aes(x = year,
@@ -184,7 +185,7 @@ q1_server <- function(input, output) {
              country = countryName,
              year = reportingYear,
              emission = mean_emission)
-    
+
     plt <- ggplot(meaned,
                   aes) +
       geom_point() +
@@ -197,7 +198,7 @@ q1_server <- function(input, output) {
       geom_vline(xintercept = 2015,
                  linetype = "dotted",
                  colour = "darkblue")
-    
+
     ggplotly(plt)
   })
 }
@@ -231,7 +232,7 @@ create_q6_plot <- function(df, order) {
   lim = c(-400, 400)
   brk = c(-400,-300,-200,-100, 0, 100, 200, 300, 400)
   lbl = c(400, 300, 200, 100, 0, 100, 200, 300, 400)
-  
+
   inner_plt <- ggplot(q6,
                       aes(
                         x = {
@@ -259,13 +260,13 @@ create_q6_plot <- function(df, order) {
                           isCapital
                         )
                       ))
-  
+
   plt <- ggplotly(
     inner_plt +
       geom_bar(
         stat = "identity",
         width = 0.3,
-        fill = "#d4d4d4"
+        fill = "#989898"
       ) +
       scale_y_continuous(
         limit = c(-400, 400),
@@ -291,12 +292,9 @@ create_q6_plot <- function(df, order) {
         alpha = 0.3
       ) +
       coord_flip() +
-      theme(
-        panel.background = element_blank(),
-        plot.title = element_text(hjust = 0.515)
-      ),
+      theme(plot.title = element_text(hjust = 0.515)),
     tooltip = c("text")
   )
-  
+
   return(plt)
 }

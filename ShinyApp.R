@@ -18,6 +18,8 @@ source('report/documentation.R')
 load_q6_data()
 load_q5_data()
 load_q3_data()
+load_q2_data()
+load_q4_data()
 
 ui <- navbarPage(title = "European Environment Agency Polution Reporting",
                  country_ui,
