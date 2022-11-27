@@ -4,7 +4,7 @@ library(dplyr)
 library(plotly)
 
 emission_ui <- tabPanel("Data by Emissions",
-                        
+
                         navlistPanel(
                           "Scope",
                           widths = c(2, 8),
@@ -47,6 +47,7 @@ create_q5_plot <- function(df) {
         )
       )
     ) +
+      scale_color_manual(values = c(raw_cols)) +
       geom_point() +
       geom_line() +
       labs(x = "Reporting year",

@@ -7,7 +7,7 @@ library(rcartocolor)
 library(treemapify)
 
 sector_ui <- tabPanel("Data by Sectors",
-                      
+
                       navlistPanel(
                         "Scope",
                         widths = c(2, 8),
@@ -17,7 +17,7 @@ sector_ui <- tabPanel("Data by Sectors",
                                        width = "1600px",
                                        height = "800px")
                         ),
-                        
+
                         tabPanel("Summarized",
                                  tabsetPanel(
                                    tabPanel(
@@ -37,29 +37,7 @@ sector_ui <- tabPanel("Data by Sectors",
 
 q2_server <- function(input, output) {
   output$pollutionPlot1337 <- renderPlot({
-    dat <- read_csv("data/data.csv")
-    dat <-
-      dat %>% select(
-        c(
-          "countryName",
-          "eprtrSectorName",
-          "facilityName",
-          "Longitude",
-          "Latitude",
-          "City",
-          "pollutant",
-          "emissions",
-          "reportingYear"
-        )
-      )
-    dat <- dat %>% drop_na(eprtrSectorName)
-    
-    summarised =
-      dat %>%
-      group_by(eprtrSectorName) %>%
-      summarise(emissions = sum(emissions))
-    
-    ggplot(summarised,
+    ggplot(q2,
            aes(
              area = emissions,
              fill = eprtrSectorName,
@@ -76,33 +54,11 @@ q2_server <- function(input, output) {
            y = NULL,
            fill = "Sectors")
   })
-  
+
   output$pollutionPlot1338 <- renderPlotly({
-    dat <- read_csv("data/data.csv")
-    dat <-
-      dat %>% select(
-        c(
-          "countryName",
-          "eprtrSectorName",
-          "facilityName",
-          "Longitude",
-          "Latitude",
-          "City",
-          "pollutant",
-          "emissions",
-          "reportingYear"
-        )
-      )
-    dat <- dat %>% drop_na(eprtrSectorName)
-    
-    summarised =
-      dat %>%
-      group_by(eprtrSectorName) %>%
-      summarise(emissions = sum(emissions))
-    
     ggplotly(
       ggplot(
-        summarised,
+        q2_alt,
         aes(
           x = reorder(eprtrSectorName, emissions),
           y = emissions / 1000000,
@@ -118,18 +74,56 @@ q2_server <- function(input, output) {
   })
 }
 
+load_q2_data <- function() {
+  dat <- read_csv("data/data.csv")
+    dat <-
+      dat %>% select(
+        c(
+          "countryName",
+          "eprtrSectorName",
+          "facilityName",
+          "Longitude",
+          "Latitude",
+          "City",
+          "pollutant",
+          "emissions",
+          "reportingYear"
+        )
+      )
+    dat <- dat %>% drop_na(eprtrSectorName)
+
+    q2 <<-
+      dat %>%
+      group_by(eprtrSectorName) %>%
+      summarise(emissions = sum(emissions))
+
+      dat <- read_csv("data/data.csv")
+    dat <-
+      dat %>% select(
+        c(
+          "countryName",
+          "eprtrSectorName",
+          "facilityName",
+          "Longitude",
+          "Latitude",
+          "City",
+          "pollutant",
+          "emissions",
+          "reportingYear"
+        )
+      )
+    dat <- dat %>% drop_na(eprtrSectorName)
+
+    q2_alt <<-
+      dat %>%
+      group_by(eprtrSectorName) %>%
+      summarise(emissions = sum(emissions))
+}
+
 q4_server <- function(input, output) {
   output$pollutionPlot4 <- renderPlotly({
-    grouped <- group_by(dat, eprtrSectorName, reportingYear)
-    meaned <-
-      summarize(grouped, mean_emission = mean(emissions, na.rm = TRUE))
-    meaned <-
-      rename(meaned,
-             sector = eprtrSectorName,
-             year = reportingYear,
-             emission = mean_emission)
     ggplotly(
-      ggplot(meaned,
+      ggplot(q4,
              aes(
                x = year,
                y = emission,
@@ -144,4 +138,15 @@ q4_server <- function(input, output) {
         scale_color_carto_d(palette = "Safe", direction = -1)
     )
   })
+}
+
+load_q4_data <- function() {
+  grouped <- group_by(dat, eprtrSectorName, reportingYear)
+    meaned <-
+      summarize(grouped, mean_emission = mean(emissions, na.rm = TRUE))
+    q4 <<-
+      rename(meaned,
+             sector = eprtrSectorName,
+             year = reportingYear,
+             emission = mean_emission)
 }
