@@ -12,6 +12,7 @@ source('processing/country.R')
 source('processing/region.R')
 source('processing/sector.R')
 source('processing/emission.R')
+source('report/documentation.R')
 
 # Ensures data isn't reloaded constantly
 load_q6_data()
@@ -22,7 +23,8 @@ ui <- navbarPage(title = "European Environment Agency Polution Reporting",
                  country_ui,
                  region_ui,
                  sector_ui,
-                 emission_ui)
+                 emission_ui,
+                 document_ui)
 
 server <- function(input, output) {
   q1_server(input, output)
@@ -31,6 +33,7 @@ server <- function(input, output) {
   q4_server(input, output)
   q5_server(input, output)
   q6_server(input, output)
+  document_server(input, output)
 }
 
 shinyApp(ui, server)
