@@ -18,15 +18,21 @@ sector_ui <- tabPanel("Data by Sectors",
                                        height = "800px")
                         ),
                         
-                        tabPanel(
-                          "Summarized",
-                          plotOutput("pollutionPlot1337",
-                                     width = "100%",
-                                     height = "800px"),
-                          plotlyOutput("pollutionPlot1338",
-                                       width = "100%",
-                                       height = "800px")
-                        )
+                        tabPanel("Summarized",
+                                 tabsetPanel(
+                                   tabPanel(
+                                     "Tree",
+                                     plotOutput("pollutionPlot1337",
+                                                width = "100%",
+                                                height = "800px")
+                                   ),
+                                   tabPanel(
+                                     "Top-10",
+                                     plotlyOutput("pollutionPlot1338",
+                                                  width = "100%",
+                                                  height = "800px")
+                                   )
+                                 ))
                       ))
 
 q2_server <- function(input, output) {
