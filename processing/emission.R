@@ -50,6 +50,7 @@ create_q5_plot <- function(df) {
       )
     ) +
       scale_color_manual(values = c(raw_cols)) +
+      ggtitle("Mean emissions for each pollutant") +
       geom_point() +
       geom_line() +
       labs(x = "Reporting year",

@@ -196,6 +196,7 @@ q1_server <- function(input, output) {
 
     plt <- ggplot(meaned,
                   aes) +
+      ggtitle("Mean emissions for each european country") +
       geom_point() +
       geom_line() +
       xlab("Year") +

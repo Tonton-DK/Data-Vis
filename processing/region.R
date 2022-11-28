@@ -45,6 +45,7 @@ q3_server <- function(input, output) {
     
     plt <- ggplot(meaned,
                   aes) +
+      ggtitle("Mean emissions for each country in each european region") +
       geom_point() +
       geom_line() +
       xlab("Year") +
@@ -60,6 +61,7 @@ q3_server <- function(input, output) {
     ggplotly(plt)
   })
   
+  # Lineplot of summarized emissions 
   output$pollutionPlot3r <- renderPlotly({
     grouped <- group_by(dat, region, reportingYear)
     aes <- aes(x = year,
@@ -72,6 +74,7 @@ q3_server <- function(input, output) {
     
     plt <- ggplot(meaned,
                   aes) +
+      ggtitle("Mean emissions for each european region") +
       geom_point() +
       geom_line() +
       xlab("Year") +
@@ -84,6 +87,7 @@ q3_server <- function(input, output) {
                  colour = "darkblue")
     
     ggplotly(plt)
+    
   })
 }
 

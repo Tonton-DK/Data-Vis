@@ -133,13 +133,17 @@ q4_server <- function(input, output) {
                y = emission,
                color = sector
              )) +
+        ggtitle("Mean emissions by industrial sector") +
         geom_point() +
         geom_line() +
         xlab("Reporting year") +
         ylab("Mean Emission (1000x tons)") +
         scale_x_continuous(breaks = 2007:2020) +
         scale_y_continuous(breaks = scales::breaks_extended(n = 15)) +
-        scale_color_carto_d(palette = "Safe", direction = -1)
+        scale_color_carto_d(palette = "Safe", direction = -1) +
+      geom_vline(xintercept = 2015,
+                 linetype = "dotted",
+                 colour = "darkblue")
     )
   })
 }
