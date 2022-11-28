@@ -24,7 +24,7 @@ load_q4_data()
 
 js <-
 "
-const sections = document.querySelectorAll('section[id]');
+
 var open = false;
 
 function openNav() {
@@ -45,7 +45,7 @@ function closeNav() {
 
 
 document.addEventListener('scroll', function (event) {
-
+const sections = document.querySelectorAll('section[id]');
     let scroll = window.pageYOffset;
     sections.forEach(function (current) {
         const sectionHeight = current.offsetHeight;
