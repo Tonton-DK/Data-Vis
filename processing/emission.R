@@ -10,9 +10,11 @@ emission_ui <- tabPanel("Data by Emissions",
                           widths = c(2, 8),
                           tabPanel(
                             title = "Over time",
+                            p("Look at me, i am a question!"),
                             plotlyOutput("pollutionPlot5",
                                          width = "1200px",
-                                         height = "800px")
+                                         height = "800px"),
+                            p("Look at me, i am a conclusion!")
                           )
                         ))
 

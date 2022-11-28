@@ -16,6 +16,7 @@ country_ui <- tabPanel(
     "Scope",
     widths = c(2, 8),
     tabPanel(title = "Country by year",
+             p("Look at me, i am a question!"),
              sidebarLayout(
                sidebarPanel(
                  sliderInput(
@@ -42,14 +43,19 @@ country_ui <- tabPanel(
                                 height = "800px")
                  )
                ))
-             )),
+             ),
+             p("Look at me, i am a conclusion!")
+    ),
     tabPanel(
       title = "Country over time",
+      p("Look at me, i am a question!"),
       plotlyOutput("pollutionPlot32",
                    width = "1200px",
-                   height = "800px")
+                   height = "800px"),
+      p("Look at me, i am a conclusion!")
     ),
     tabPanel("Capital pollution summarized",
+             p("Look at me, i am a question!"),
              fluidPage(fluidRow(
                column(
                  width = 2,
@@ -68,7 +74,9 @@ country_ui <- tabPanel(
                               width = "1200px",
                               height = "800px")
                )
-             )))
+             )),
+             p("Look at me, i am a conclusion!")
+    )
   )
 )
 

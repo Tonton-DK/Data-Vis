@@ -12,16 +12,20 @@ region_ui <- tabPanel("Data by Regions",
                         widths = c(2, 8),
                         tabPanel(
                           title = "Countries",
+                          p("Look at me, i am a question!"),
                           plotlyOutput("pollutionPlot3c",
                                        width = "1200px",
-                                       height = "800px")
+                                       height = "800px"),
+                          p("Look at me, i am a conclusion!")
                         ),
                         
                         tabPanel(
                           "Regions",
+                          p("Look at me, i am a question!"),
                           plotlyOutput("pollutionPlot3r",
                                        width = "1200px",
-                                       height = "800px")
+                                       height = "800px"),
+                          p("Look at me, i am a conclusion!")
                         )
                       ))
 

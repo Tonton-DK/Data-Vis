@@ -13,12 +13,15 @@ sector_ui <- tabPanel("Data by Sectors",
                         widths = c(2, 8),
                         tabPanel(
                           title = "Over time",
+                          p("Look at me, i am a question!"),
                           plotlyOutput("pollutionPlot4",
                                        width = "1600px",
-                                       height = "800px")
+                                       height = "800px"),
+                          p("Look at me, i am a conclusion!")
                         ),
 
                         tabPanel("Summarized",
+                                 p("Look at me, i am a question!"),
                                  tabsetPanel(
                                    tabPanel(
                                      "Tree",
@@ -32,7 +35,8 @@ sector_ui <- tabPanel("Data by Sectors",
                                                   width = "100%",
                                                   height = "800px")
                                    )
-                                 ))
+                                 ),
+                                 p("Look at me, i am a conclusion!"))
                       ))
 
 q2_server <- function(input, output) {
