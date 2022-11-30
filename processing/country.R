@@ -83,7 +83,8 @@ country_ui <- tabPanel(
 
 q1_ui <- create_ui(
   index = 1, 
-  question = "Which countries are responsible for the majority of pollution?", 
+  question = "Which countries are responsible for the majority of pollution?",
+  conclusion = "",
   control = sliderInput(
     "yearId",
     "Select a year",
@@ -116,7 +117,8 @@ q1_ui <- create_ui(
 
 q3_ui <- create_ui(
   index = 3, 
-  question = "Is the capital the most polluted of the countries?", 
+  question = "Is the capital the most polluted of the countries?",
+  conclusion = "",
   control = radioButtons(
     "orderby",
     "Order by:",

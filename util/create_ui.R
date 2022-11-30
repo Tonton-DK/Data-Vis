@@ -1,4 +1,4 @@
-create_ui <- function(index, question, control = NULL, controlWidth = NULL, plot) {
+create_ui <- function(index, question, conclusion, plot, control = NULL, controlWidth = NULL) {
   ui <- tags$section(
     id = paste("q", index, sep=""),
     tags$h1(paste("Question", index)),
@@ -23,7 +23,8 @@ create_ui <- function(index, question, control = NULL, controlWidth = NULL, plot
         },
         plot
       )
-    ))
+    )),
+    tags$p(conclusion)
   )
                
   return(ui)

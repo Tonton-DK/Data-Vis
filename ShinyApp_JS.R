@@ -49,7 +49,8 @@ ui = fluidPage(
                         intro_ui,
            ),
            q1_ui,
-           q3_ui
+           q3_ui,
+           q7_ui
           
   )
 )
