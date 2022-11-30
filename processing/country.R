@@ -9,6 +9,7 @@ library(paletteer)
 library(scales)
 library(tidyr)
 library(ggthemes)
+#library(RColorBrewer)
 
 country_ui <- tabPanel(
   "Data by Countries",
@@ -117,11 +118,12 @@ q1_server <- function(input, output) {
         geom_text(
           data = labels,
           aes(label = region),
-          colour = "blue",
+          colour = "black",
           size = 3
         ) +
         scale_fill_carto_c(
-          palette = "Safe",
+         #palette = "SunsetDark",
+          palette = "Prism",
           name = "Mean emission (1000x tons)",
           na.value = "white",
           limits = c(0, 400),
@@ -158,7 +160,7 @@ q1_server <- function(input, output) {
         ) +
         geom_rect(alpha = .7) +
         aes(fill = countryName) +
-        scale_fill_viridis_d(option = "magma", direction = -1) +
+        scale_fill_viridis_d(option = "Teal", direction = -1) +
         scale_x_continuous(
           limits = c(-150, 400),
           breaks = c(0, 100, 200, 300, 400)

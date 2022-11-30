@@ -85,9 +85,16 @@ q3_server <- function(input, output) {
       geom_vline(xintercept = 2015,
                  linetype = "dotted",
                  colour = "darkblue")
+    #   transition_reveal(along = year)
+    # animate(plt)
     
     ggplotly(plt)
     
+    # plt_animation <- plt + 
+    #   transition_time(year) +
+    #   ggtitle('Year: {frametime}', subtitle=('Frame {frame} of {nframes}'))
+    # animate(plt_animation, nframes = year)
+    # 
   })
 }
 
