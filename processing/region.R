@@ -23,7 +23,7 @@ region_ui <- tabPanel("Data by Regions",
                         tabPanel(
                           "Regions",
                           p("Look at me, i am a question!"),
-                          plotlyOutput("pollutionPlot3r",
+                          imageOutput("pollutionPlot3r",
                                        width = "1200px",
                                        height = "800px"),
                           p("Look at me, i am a conclusion!")
