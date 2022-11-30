@@ -121,8 +121,7 @@ q3_ui <- create_ui(
     "orderby",
     "Order by:",
     c("Capital" = "cap",
-      "Non-capital" = "ncap",
-      "Country")
+      "Non-capital" = "ncap")
   ),
   controlWidth = 140,
   plot = plotlyOutput(
