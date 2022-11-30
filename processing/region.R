@@ -5,6 +5,7 @@ library(dplyr)
 library(stringr)
 library(plotly)
 library(rcartocolor)
+library(gifski)
 
 region_ui <- tabPanel("Data by Regions",
                       
@@ -85,7 +86,10 @@ q3_server <- function(input, output) {
       geom_vline(xintercept = 2015, linetype = "dotted", colour = "darkblue") +
       gganimate::transition_reveal(year) #+ 
     #gganimate::view_follow()
-    anim_save("outfile.gif", animate(anim)) # New
+    a <- animate(anim, renderer = gifski_renderer())
+    print(a) # print first
+    
+    anim_save(filename = "outfile.gif", animation = a) # works
     
     # Return a list containing the filename
     list(src = "outfile.gif", contentType = "image/gif")
