@@ -121,14 +121,13 @@ q1_server <- function(input, output) {
           colour = "black",
           size = 3
         ) +
-        scale_fill_carto_c(
-         #palette = "SunsetDark",
-          palette = "Prism",
+        scale_fill_gradient( 
           name = "Mean emission (1000x tons)",
-          na.value = "white",
-          limits = c(0, 400),
-          breaks = scales::breaks_extended(n = 10)
-        )
+          low = "white",  
+          high = "red",
+          na.value = "grey",  
+          limits = c(0, 350),
+          breaks = scales::breaks_extended(n = 10))
     )
 
     ggply$x$data[[33]]$hoverinfo <- "skip"
