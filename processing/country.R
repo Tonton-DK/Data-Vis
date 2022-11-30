@@ -9,7 +9,7 @@ library(paletteer)
 library(scales)
 library(tidyr)
 library(ggthemes)
-#library(RColorBrewer)
+library(maps)
 
 country_ui <- tabPanel(
   "Data by Countries",
