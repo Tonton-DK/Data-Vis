@@ -65,7 +65,8 @@ country_ui <- tabPanel(
                    "orderby",
                    "Order by:",
                    c("Capital" = "cap",
-                     "Non-capital" = "ncap")
+                     "Non-capital" = "ncap",
+                     "Country")
                  )
                ),
                column(
@@ -79,6 +80,58 @@ country_ui <- tabPanel(
     )
   )
 )
+
+q1_ui <- create_ui(
+  index = 1, 
+  question = "Which countries are responsible for the majority of pollution?", 
+  control = sliderInput(
+    "yearId",
+    "Select a year",
+    min = 2007,
+    max = 2020,
+    value = 2007,
+    sep = "",
+    animate = TRUE
+  ),
+  controlWidth = 240,
+  plot = tabsetPanel(
+    tabPanel(
+      "Top-10",
+      plotlyOutput(
+        "pollutionPlot2",
+        width = "800px",
+        height = "400px"
+      )
+    ),
+    tabPanel(
+      "Map",
+      plotlyOutput(
+        "pollutionPlot1",
+        width = "800px",
+        height = "800px"
+      )
+    )
+  )
+)
+
+q3_ui <- create_ui(
+  index = 3, 
+  question = "Is the capital the most polluted of the countries?", 
+  control = radioButtons(
+    "orderby",
+    "Order by:",
+    c("Capital" = "cap",
+      "Non-capital" = "ncap",
+      "Country")
+  ),
+  controlWidth = 140,
+  plot = plotlyOutput(
+    "pollutionPlot6",
+    width = "1200px",
+    height = "800px"
+  )
+)
+
 
 q1_server <- function(input, output) {
   output$pollutionPlot1 <- renderPlotly({
