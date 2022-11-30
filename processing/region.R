@@ -1,5 +1,6 @@
 library(tidyverse)
 library(ggplot2)
+library(gganimate)
 library(dplyr)
 library(stringr)
 library(plotly)
@@ -62,7 +63,7 @@ q3_server <- function(input, output) {
   })
   
   # Lineplot of summarized emissions 
-  output$pollutionPlot3r <- renderPlotly({
+  output$pollutionPlot3r <- renderImage({
     grouped <- group_by(dat, region, reportingYear)
     aes <- aes(x = year,
                y = emission,
@@ -72,8 +73,7 @@ q3_server <- function(input, output) {
     meaned <-
       rename(meaned, year = reportingYear, emission = mean_emission)
     
-    plt <- ggplot(meaned,
-                  aes) +
+    anim <- ggplot(meaned, aes) +
       ggtitle("Mean emissions for each european region") +
       geom_point() +
       geom_line() +
@@ -82,20 +82,14 @@ q3_server <- function(input, output) {
       scale_x_continuous(breaks = 2007:2020) +
       scale_y_continuous(breaks = scales::breaks_extended(n = 15)) +
       scale_color_manual(values = c(raw_cols)) +
-      geom_vline(xintercept = 2015,
-                 linetype = "dotted",
-                 colour = "darkblue")
-    #   transition_reveal(along = year)
-    # animate(plt)
+      geom_vline(xintercept = 2015, linetype = "dotted", colour = "darkblue") +
+      gganimate::transition_reveal(year) #+ 
+    #gganimate::view_follow()
+    anim_save("outfile.gif", animate(anim)) # New
     
-    ggplotly(plt)
-    
-    # plt_animation <- plt + 
-    #   transition_time(year) +
-    #   ggtitle('Year: {frametime}', subtitle=('Frame {frame} of {nframes}'))
-    # animate(plt_animation, nframes = year)
-    # 
-  })
+    # Return a list containing the filename
+    list(src = "outfile.gif", contentType = "image/gif")
+  }, deleteFile = TRUE)
 }
 
 load_q3_data <- function() {
