@@ -81,10 +81,63 @@ country_ui <- tabPanel(
   )
 )
 
+q1_ui <- create_ui(
+  index = 1, 
+  question = "Which countries are responsible for the majority of pollution?",
+  conclusion = "",
+  control = sliderInput(
+    "yearId",
+    "Select a year",
+    min = 2007,
+    max = 2020,
+    value = 2007,
+    sep = "",
+    animate = TRUE
+  ),
+  controlWidth = 240,
+  plot = tabsetPanel(
+    tabPanel(
+      "Top-10",
+      plotlyOutput(
+        "pollutionPlot2",
+        width = "800px",
+        height = "400px"
+      )
+    ),
+    tabPanel(
+      "Map",
+      plotlyOutput(
+        "pollutionPlot1",
+        width = "800px",
+        height = "800px"
+      )
+    )
+  )
+)
+
+q3_ui <- create_ui(
+  index = 3, 
+  question = "Is the capital the most polluted of the countries?",
+  conclusion = "",
+  control = radioButtons(
+    "orderby",
+    "Order by:",
+    c("Capital" = "cap",
+      "Non-capital" = "ncap")
+  ),
+  controlWidth = 140,
+  plot = plotlyOutput(
+    "pollutionPlot6",
+    width = "1200px",
+    height = "800px"
+  )
+)
+
+
 q1_server <- function(input, output) {
   output$pollutionPlot1 <- renderPlotly({
     filtered = dat %>% filter(reportingYear == input$yearId)
-
+    
     grouped <- group_by(filtered, countryName)
     meaned <-
       summarize(grouped, mean_emission = mean(emissions, na.rm = TRUE))
@@ -95,17 +148,17 @@ q1_server <- function(input, output) {
                         "Czech Republic",
                         ifelse(countryName == "United Kingdom", "UK", countryName)
                       ))
-
+    
     mapdata <- map_data("world") %>%
       inner_join(mutated, by = "region")
     mapdata <-
       rename(mapdata, country = countryName, emission = mean_emission)
-
+    
     labels <- mapdata %>%
       group_by(region) %>%
       select(region, group, long, lat) %>%
       summarise_all(mean)
-
+    
     ggply <- ggplotly(
       ggplot(mapdata,
              aes(
@@ -129,16 +182,16 @@ q1_server <- function(input, output) {
           limits = c(0, 350),
           breaks = scales::breaks_extended(n = 10))
     )
-
+    
     ggply$x$data[[33]]$hoverinfo <- "skip"
     ggply
   })
-
+  
   output$pollutionPlot2 <- renderPlotly({
     grouped <- group_by(dat, countryName, reportingYear)
     meaned <-
       summarize(grouped, mean_emission = mean(emissions, na.rm = TRUE))
-
+    
     ranked_by_year <- meaned %>%
       # for each year we assign a rank
       group_by(reportingYear) %>%
@@ -147,7 +200,7 @@ q1_server <- function(input, output) {
       mutate(rank = 1:n()) %>%
       filter(rank <= 10) %>%
       filter(reportingYear == input$yearId)
-
+    
     ggplotly(
       ggplot(ranked_by_year) +
         aes(xmin = 0 ,
@@ -181,7 +234,7 @@ q1_server <- function(input, output) {
         )
     )
   })
-
+  
   output$pollutionPlot32 <- renderPlotly({
     grouped <- group_by(dat, countryName, reportingYear)
     aes <- aes(x = year,
@@ -194,7 +247,7 @@ q1_server <- function(input, output) {
              country = countryName,
              year = reportingYear,
              emission = mean_emission)
-
+    
     plt <- ggplot(meaned,
                   aes) +
       ggtitle("Mean emissions for each european country") +
@@ -208,7 +261,7 @@ q1_server <- function(input, output) {
       geom_vline(xintercept = 2015,
                  linetype = "dotted",
                  colour = "darkblue")
-
+    
     ggplotly(plt)
   })
 }
@@ -242,7 +295,7 @@ create_q6_plot <- function(df, order) {
   lim = c(-400, 400)
   brk = c(-400,-300,-200,-100, 0, 100, 200, 300, 400)
   lbl = c(400, 300, 200, 100, 0, 100, 200, 300, 400)
-
+  
   inner_plt <- ggplot(q6,
                       aes(
                         x = {
@@ -270,7 +323,7 @@ create_q6_plot <- function(df, order) {
                           isCapital
                         )
                       ))
-
+  
   plt <- ggplotly(
     inner_plt +
       geom_bar(
@@ -305,6 +358,6 @@ create_q6_plot <- function(df, order) {
       theme(plot.title = element_text(hjust = 0.515)),
     tooltip = c("text")
   )
-
+  
   return(plt)
 }
