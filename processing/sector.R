@@ -50,21 +50,23 @@ q2_server <- function(input, output) {
       q2,
       aes(
         area = emissions,
-        fill = eprtrSectorName,
+        fill = emissions / 100000000,
         label = eprtrSectorName
       )
     ) +
       geom_treemap() +
       geom_treemap_text(
-        colour = "white",
-        place = "centre",
-        size = 15,
-        grow = TRUE
+        colour = c(
+          rep("white", 2),
+          1, rep("white", 6)
+        ),
+        place = "centre", size = 15
       ) +
+      scale_fill_viridis_c() +
       labs(
         x = NULL,
         y = NULL,
-        fill = "Sectors"
+        fill = "Emission (1000x tons)"
       )
   })
 
@@ -76,9 +78,9 @@ q2_server <- function(input, output) {
           x = reorder(eprtrSectorName, emissions),
           y = emissions / 100000000,
           text = paste(
-            "Sector:\t\t",
+            "Sector:",
             eprtrSectorName,
-            "<br>Emission:\t",
+            "<br>Emission:",
             round(abs(emissions), 2)
           )
         )
