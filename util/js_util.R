@@ -47,7 +47,7 @@ body {
 
 section {
 /*    background-color: #f2f2f2; */
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
     padding: 2.5rem 4rem;
 }
