@@ -117,7 +117,11 @@ q1_server <- function(input, output) {
           ymin = rank - .45,
           ymax = rank + .45,
           y = rank,
-          text = paste("Country", countryName)
+          text = paste(
+            "Country: ", countryName,
+            "<br>Reporting year: ", reportingYear,
+            "<br>Mean emission: ", round(abs(mean_emission), 2)
+          )
         ) +
         geom_rect(alpha = .7) +
         #aes(fill = countryName) +
