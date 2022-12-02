@@ -116,11 +116,12 @@ q1_server <- function(input, output) {
         aes(
           ymin = rank - .45,
           ymax = rank + .45,
-          y = rank
+          y = rank,
+          text = paste("Country", countryName)
         ) +
         geom_rect(alpha = .7) +
-        aes(fill = countryName) +
-        scale_fill_viridis_d(option = "Teal", direction = -1) +
+        #aes(fill = countryName) +
+        #scale_fill_viridis_d(option = "Teal", direction = -1) +
         scale_x_continuous(
           limits = c(-150, 400),
           breaks = c(0, 100, 200, 300, 400)
@@ -139,7 +140,8 @@ q1_server <- function(input, output) {
           axis.text.y = element_blank(),
           axis.ticks.y = element_blank(),
           axis.line.y = element_blank()
-        )
+        ),
+        tooltip = c("text")
     )
   })
 }
