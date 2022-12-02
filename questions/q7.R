@@ -5,8 +5,8 @@ library(stringr)
 library(plotly)
 library(rcartocolor)
 
-# source('ingestion/data.R')
-# source('util/create_ui.R')
+source('ingestion/data.R')
+source('util/create_ui.R')
 
 q7_ui <- create_ui(
   index = 7, 
@@ -27,7 +27,8 @@ q7_server <- function(input, output) {
             plt2,
             nrows = 2,
             shareX = TRUE,
-            shareY = TRUE)
+            shareY = TRUE) %>%
+      highlight(~pollutant, on = "plotly_click", off = "plotly_doubleclick")
   })
 }
 
@@ -77,7 +78,9 @@ temp <- dat %>%
     mean_emission = round(mean_emission, 0)
   )
 q7_data <<- temp %>%
-  filter(pollutant %in% top2)
+  filter(pollutant %in% top2) %>% 
+  highlight_key(~pollutant)
 q7_data_alt <<- temp %>%
-  filter(!pollutant %in% top2)
+  filter(!pollutant %in% top2) %>% 
+  highlight_key(~pollutant)
 rm(top2, temp)
