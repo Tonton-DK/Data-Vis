@@ -1,25 +1,5 @@
-js <-
-  "
-
-var open = false;
-
-function openNav() {
-    if (!open) {
-        document.getElementById('sidenav').style.width = '250px';
-        document.getElementById('main').style.marginLeft = '250px';
-        open = !open;
-    } else {
-        closeNav();
-    }
-}
-
-function closeNav() {
-    document.getElementById('sidenav').style.width = '0';
-    document.getElementById('main').style.marginLeft = '0';
-    open = !open;
-}
-
-
+js <- 
+"
 document.addEventListener('scroll', function (event) {
 const sections = document.querySelectorAll('section[id]');
     let scroll = window.pageYOffset;
@@ -60,6 +40,15 @@ section:last-of-type {
     height: 100vh;
 }
 */
+
+.question {
+    margin-bottom: 4em;
+}
+
+.chart {
+  margin-top: 4rem
+}
+
 .sidenav {
     height: 100%;
     width: 0;
