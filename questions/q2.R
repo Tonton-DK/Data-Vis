@@ -1,3 +1,14 @@
+# library(tidyverse)
+# library(ggplot2)
+# library(dplyr)
+# library(stringr)
+# library(plotly)
+# library(rcartocolor)
+
+# source('ingestion/data.R')
+# source('util/create_ui.R')
+
+
 q2_ui <- create_ui(
   index = 2, 
   question = "How has pollution levels developed over time pr. country?",

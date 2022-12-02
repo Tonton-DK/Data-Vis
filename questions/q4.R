@@ -1,3 +1,12 @@
+# library(tidyverse)
+# library(ggplot2)
+# library(dplyr)
+# library(stringr)
+# library(plotly)
+# library(rcartocolor)
+# library(gganimate)
+# library(gifski)
+
 # source('ingestion/data.R')
 # source('util/create_ui.R')
 

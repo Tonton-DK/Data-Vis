@@ -1,3 +1,10 @@
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(stringr)
+library(plotly)
+library(rcartocolor)
+
 # source('ingestion/data.R')
 # source('util/create_ui.R')
 

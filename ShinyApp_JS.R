@@ -1,3 +1,14 @@
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(stringr)
+library(plotly)
+library(rcartocolor)
+library(gganimate)
+library(gifski)
+library(treemapify)
+
+
 source('ingestion/data.R')
 source('ingestion/style.R')
 source('util/js_util.R')
