@@ -61,7 +61,7 @@ create_q3_plot <- function(df, order) {
         countryName,
         "<br>Pollution in capital: ",
         isCapital,
-        "<br>Mean emission:",
+        "<br>Mean emission: ",
         round(abs(mean_emission), 2)
       )
     )
