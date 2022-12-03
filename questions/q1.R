@@ -29,7 +29,7 @@ q1_ui <- create_ui(
         "pollutionPlot1b",
         width = "800px",
         height = "400px"
-      )
+      ) %>% withSpinner(color="#4363D8")
     ),
     tabPanel(
       "Map",
@@ -37,7 +37,7 @@ q1_ui <- create_ui(
         "pollutionPlot1a",
         width = "800px",
         height = "800px"
-      )
+      ) %>% withSpinner(color="#4363D8")
     )
   )
 )

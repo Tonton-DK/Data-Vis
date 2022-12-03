@@ -23,7 +23,7 @@ q3_ui <- create_ui(
     "pollutionPlot3",
     width = "1200px",
     height = "800px"
-  )
+  ) %>% withSpinner(color="#4363D8")
 )
 
 q3_server <- function(input, output) {

@@ -7,6 +7,7 @@ library(rcartocolor)
 library(gganimate)
 library(gifski)
 library(treemapify)
+library(shinycssloaders)
 
 
 source('ingestion/data.R')

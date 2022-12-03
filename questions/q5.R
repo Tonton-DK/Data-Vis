@@ -17,7 +17,7 @@ q5_ui <- create_ui(
     "pollutionPlot5",
     width = "100%",
     height = "800px"
-  )
+  ) %>% withSpinner(color="#4363D8")
 )
 
 q5_server <- function(input, output) {

@@ -16,7 +16,7 @@ q4_ui <- create_ui(
   conclusion = "",
   imageOutput("pollutionPlot4",
               width = "1200px",
-              height = "800px"),
+              height = "800px") %>% withSpinner(color="#4363D8"),
 )
 
 q4_server <- function(input, output) {
