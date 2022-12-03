@@ -80,12 +80,13 @@ create_q3_plot <- function(df, order) {
         labels = lbl,
         expand = c(0, 0)
       ) +
-      geom_point(aes(fill = isCapital), size = 3, stroke = 0) +
+      geom_point(aes(fill = isCapital), size = 3, stroke = 0) + 
       geom_point(
         aes(x = countryName, y = NA_val, fill = "NA"),
         size = 3,
         stroke = 0
       ) +
+      scale_fill_manual(values = c("#2AA179", "#E6AB02", "#6A3D9A")) +
       labs(
         x = "Country",
         y = "Mean emission (1000x tons)",
