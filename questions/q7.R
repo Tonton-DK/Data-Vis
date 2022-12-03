@@ -42,12 +42,12 @@ create_q7_plot <- function(df) {
         group = pollutant,
         color = pollutant,
         text = paste(
-          "Reporting year:\t\t",
+          "<br>Pollutant:",
+          pollutant,
+          "Reporting year: ",
           reportingYear,
-          "<br>Mean emission:\t",
-          round(abs(mean_emission), 2),
-          "<br>Pollutant:\t\t\t\t\t\t\t\t\t\t\t" ,
-          pollutant
+          "<br>Mean emission: ",
+          round(abs(mean_emission), 2)
         )
       )
     ) +

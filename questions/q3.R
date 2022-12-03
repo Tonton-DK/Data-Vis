@@ -57,12 +57,12 @@ create_q3_plot <- function(df, order) {
       },
       y = mean_emission,
       text = paste(
-        "Country:\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+        "Country: ",
         countryName,
-        "<br>Mean emission:\t\t\t\t\t\t",
-        round(abs(mean_emission), 2),
-        "<br>Pollution in capital:\t",
-        isCapital
+        "<br>Pollution in capital: ",
+        isCapital,
+        "<br>Mean emission:",
+        round(abs(mean_emission), 2)
       )
     )
   )
