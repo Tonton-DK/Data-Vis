@@ -18,17 +18,6 @@ emission_ui <- tabPanel("Data by Emissions",
                           )
                         ))
 
-q7_ui <- create_ui(
-  index = 7, 
-  question = "Which pollutants are mostly released?",
-  conclusion = "We conclude that CO2 is mostly released",
-  plot = plotlyOutput(
-    "pollutionPlot5",
-    width = "1200px",
-    height = "800px"
-  )
-)
-
 q5_server <- function(input, output) {
   output$pollutionPlot5 <- renderPlotly({
     plt1 <- create_q5_plot(q5)
@@ -51,11 +40,11 @@ create_q5_plot <- function(df) {
         group = pollutant,
         color = pollutant,
         text = paste(
-          "Reporting year:\t\t",
+          "Reporting year: ",
           reportingYear,
-          "<br>Mean emission:\t",
+          "<br>Mean emission: ",
           round(abs(mean_emission), 2),
-          "<br>Pollutant:\t\t\t\t\t\t\t\t\t\t\t" ,
+          "<br>Pollutant: " ,
           pollutant
         )
       )

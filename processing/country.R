@@ -65,8 +65,7 @@ country_ui <- tabPanel(
                    "orderby",
                    "Order by:",
                    c("Capital" = "cap",
-                     "Non-capital" = "ncap",
-                     "Country")
+                     "Non-capital" = "ncap")
                  )
                ),
                column(
@@ -80,59 +79,6 @@ country_ui <- tabPanel(
     )
   )
 )
-
-q1_ui <- create_ui(
-  index = 1, 
-  question = "Which countries are responsible for the majority of pollution?",
-  conclusion = "",
-  control = sliderInput(
-    "yearId",
-    "Select a year",
-    min = 2007,
-    max = 2020,
-    value = 2007,
-    sep = "",
-    animate = TRUE
-  ),
-  controlWidth = 240,
-  plot = tabsetPanel(
-    tabPanel(
-      "Top-10",
-      plotlyOutput(
-        "pollutionPlot2",
-        width = "800px",
-        height = "400px"
-      )
-    ),
-    tabPanel(
-      "Map",
-      plotlyOutput(
-        "pollutionPlot1",
-        width = "800px",
-        height = "800px"
-      )
-    )
-  )
-)
-
-q3_ui <- create_ui(
-  index = 3, 
-  question = "Is the capital the most polluted of the countries?",
-  conclusion = "",
-  control = radioButtons(
-    "orderby",
-    "Order by:",
-    c("Capital" = "cap",
-      "Non-capital" = "ncap")
-  ),
-  controlWidth = 140,
-  plot = plotlyOutput(
-    "pollutionPlot6",
-    width = "1200px",
-    height = "800px"
-  )
-)
-
 
 q1_server <- function(input, output) {
   output$pollutionPlot1 <- renderPlotly({
@@ -208,11 +154,16 @@ q1_server <- function(input, output) {
         aes(
           ymin = rank - .45,
           ymax = rank + .45,
-          y = rank
+          y = rank,
+          text = paste(
+            "Country: ", countryName,
+            "<br>Reporting year: ", reportingYear,
+            "<br>Mean emission: ", round(abs(mean_emission), 2)
+          )
         ) +
         geom_rect(alpha = .7) +
-        aes(fill = countryName) +
-        scale_fill_viridis_d(option = "Teal", direction = -1) +
+        #aes(fill = countryName) +
+        #scale_fill_viridis_d(option = "Teal", direction = -1) +
         scale_x_continuous(
           limits = c(-150, 400),
           breaks = c(0, 100, 200, 300, 400)
@@ -231,7 +182,8 @@ q1_server <- function(input, output) {
           axis.text.y = element_blank(),
           axis.ticks.y = element_blank(),
           axis.line.y = element_blank()
-        )
+        ),
+      tooltip = c("text")
     )
   })
   
@@ -309,9 +261,6 @@ create_q6_plot <- function(df, order) {
                                     sum,
                                     order = T)
                           }
-                          else {
-                            countryName
-                          }
                         },
                         y = mean_emission,
                         text = paste(
@@ -343,6 +292,7 @@ create_q6_plot <- function(df, order) {
         size = 3,
         stroke = 0
       ) +
+      scale_fill_manual(values = c("#2AA179", "#E6AB02", "#6A3D9A")) +
       labs(
         x = "Country",
         y = "Mean emission (1000x tons)",
