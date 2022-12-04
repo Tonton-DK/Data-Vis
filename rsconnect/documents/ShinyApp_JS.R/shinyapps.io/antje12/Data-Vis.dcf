@@ -5,10 +5,10 @@ account: antje12
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 7748054
-bundleId: 6588715
+bundleId: 6588834
 url: https://antje12.shinyapps.io/Data-Vis/
-when: 1670146456.87013
-lastSyncTime: 1670146456.87016
+when: 1670150223.45692
+lastSyncTime: 1670150223.45693
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: .RData|deprecated_r_files/question3.R|deprecated_r_files/question7.R|question1.R|question2.R|question4.R|ShinyApp.R

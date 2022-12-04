@@ -14,8 +14,8 @@ q7_ui <- create_ui(
   conclusion = "We conclude that CO2 is mostly released",
   plot = plotlyOutput(
     "pollutionPlot7",
-    width = "1200px",
-    height = "800px"
+    width = "1000px",
+    height = "100%"
   ) %>% withSpinner(color="#4363D8")
 )
 

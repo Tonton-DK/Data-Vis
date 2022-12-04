@@ -15,8 +15,8 @@ q5_ui <- create_ui(
   conclusion = "",
   plot = plotlyOutput(
     "pollutionPlot5",
-    width = "100%",
-    height = "800px"
+    width = "1000px",
+    height = "100%"
   ) %>% withSpinner(color="#4363D8")
 )
 

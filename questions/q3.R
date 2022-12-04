@@ -18,11 +18,11 @@ q3_ui <- create_ui(
     c("Capital" = "cap",
       "Non-capital" = "ncap")
   ),
-  controlWidth = 140,
+  controlWidth = 150,
   plot = plotlyOutput(
     "pollutionPlot3",
-    width = "1200px",
-    height = "800px"
+    width = "850px",
+    height = "100%"
   ) %>% withSpinner(color="#4363D8")
 )
 

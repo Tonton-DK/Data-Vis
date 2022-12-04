@@ -16,13 +16,13 @@ q2_ui <- create_ui(
   plot = div(
     fluidRow(
       plotlyOutput("pollutionPlot2a",
-                   width = "1200px",
-                   height = "800px") %>% withSpinner(color="#4363D8")
+                   width = "1000px",
+                   height = "100%") %>% withSpinner(color="#4363D8")
     ),
     fluidRow(
       plotlyOutput("pollutionPlot2b",
-                   width = "1200px",
-                   height = "800px") %>% withSpinner(color="#4363D8")
+                   width = "1000px",
+                   height = "100%") %>% withSpinner(color="#4363D8")
     )
   )
 )

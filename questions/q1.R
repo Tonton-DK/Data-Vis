@@ -21,22 +21,22 @@ q1_ui <- create_ui(
     sep = "",
     animate = TRUE
   ),
-  controlWidth = 240,
+  controlWidth = 250,
   plot = tabsetPanel(
     tabPanel(
       "Top-10",
       plotlyOutput(
         "pollutionPlot1b",
-        width = "800px",
-        height = "400px"
+        width = "750px",
+        height = "100%"
       ) %>% withSpinner(color="#4363D8")
     ),
     tabPanel(
       "Map",
       plotlyOutput(
         "pollutionPlot1a",
-        width = "800px",
-        height = "800px"
+        width = "750px",
+        height = "100%"
       ) %>% withSpinner(color="#4363D8")
     )
   )
