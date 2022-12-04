@@ -47,7 +47,7 @@ ui = fluidPage(
     q1_ui,
     q2_ui,
     q3_ui,
-    #q4_ui,
+    q4_ui,
     q5_ui,
     q6_ui,
     q7_ui
@@ -58,7 +58,7 @@ server <- function(input, output) {
   q1_server(input, output)
   q2_server(input, output)
   q3_server(input, output)
-  #q4_server(input, output)
+  q4_server(input, output)
   q5_server(input, output)
   q6_server(input, output)
   q7_server(input, output)
