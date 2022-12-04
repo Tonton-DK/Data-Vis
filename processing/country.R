@@ -198,7 +198,8 @@ q1_server <- function(input, output) {
       rename(meaned,
              country = countryName,
              year = reportingYear,
-             emission = mean_emission)
+             emission = mean_emission) %>% 
+      highlight_key(~country)
     
     plt <- ggplot(meaned,
                   aes) +
@@ -214,7 +215,8 @@ q1_server <- function(input, output) {
                  linetype = "dotted",
                  colour = "darkblue")
     
-    ggplotly(plt)
+    ggplotly(plt) %>%
+      highlight(~country, on = "plotly_click", off = "plotly_doubleclick")
   })
 }
 
