@@ -4,6 +4,7 @@
 # library(stringr)
 # library(plotly)
 # library(rcartocolor)
+library(htmlwidgets)
 
 # source('ingestion/data.R')
 # source('util/create_ui.R')
@@ -29,7 +30,8 @@ q1_ui <- create_ui(
         "pollutionPlot1b",
         width = "750px",
         height = "100%"
-      ) %>% withSpinner(color="#4363D8")
+      ),
+      div(id = "q1bar", textOutput("Loading") %>% withSpinner(color="#4363D8"))
     ),
     tabPanel(
       "Map",
@@ -37,7 +39,7 @@ q1_ui <- create_ui(
         "pollutionPlot1a",
         width = "750px",
         height = "100%"
-      ) %>% withSpinner(color="#4363D8")
+      )
     )
   )
 )
@@ -92,7 +94,7 @@ q1_server <- function(input, output) {
     )
     
     ggply$x$data[[33]]$hoverinfo <- "skip"
-    ggply
+    ggply  
   })
   
   output$pollutionPlot1b <- renderPlotly({
@@ -135,7 +137,7 @@ q1_server <- function(input, output) {
           hjust = "right",
           aes(label = countryName),
           x = -50
-        ) +
+        ) + 
         scale_y_reverse() +
         labs(fill = NULL) +
         labs(x = 'Mean Emission') +
@@ -146,6 +148,6 @@ q1_server <- function(input, output) {
           axis.line.y = element_blank()
         ),
         tooltip = c("text")
-    )
+    ) %>% onRender("function() {document.getElementById('q1bar').remove();}")
   })
 }
