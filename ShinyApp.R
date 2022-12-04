@@ -4,6 +4,7 @@ library(dplyr)
 library(stringr)
 library(plotly)
 library(rcartocolor)
+library(shinythemes)
 
 source('ingestion/data.R')
 source('ingestion/style.R')
@@ -22,7 +23,8 @@ load_q3_data()
 load_q2_data()
 load_q4_data()
 
-ui <- navbarPage(title = "European Environment Agency Polution Reporting",
+ui <- navbarPage(theme = shinytheme("flatly"),
+                 title = "European Environment Agency Polution Reporting",
                  intro_ui,
                  country_ui,
                  region_ui,
