@@ -12,10 +12,7 @@ q7_ui <- create_ui(
   index = 7, 
   question = "Which pollutants are mostly released?",
   conclusion = "Initially CO2 was expected to be among the top pollutants released; however, the visualisation has proven that not only is CO2 the top released pollutant, every other pollutant, excluding the additional CO2 measure, is almost negligible compared to it. While CO2 shows a decrease over the span of the data going from 2.2 billion tons in 2007 to 0.74 billion tons in 2020, the next in line is CO with 0.0012 billion tons; a mere 2000 times smaller than that of CO2.<br><br>
-
-In spite of the fact that some countries have yet to report their emissions, it is, judging by the chart, plausible that the majority of the missing data pertains to CO2. Moreover, the missing data might be the reason behind the massive drop seen in CO2 from 2017 to 2020.<br><br>
-
-The line chart proves to be exceptional at displaying data over time. It is impossible to properly illustrate data regarding this question in a single chart as the data is practically distributed over two different scales. As a result, the data is split into two parts based on the scale and plotted in separate line charts accordingly. This in turn allows for more efficiently comparing the smaller values against each other.",
+In spite of the fact that some countries have yet to report their emissions, it is, judging by the chart, plausible that the majority of the missing data pertains to CO2. Moreover, the missing data might be the reason behind the massive drop seen in CO2 from 2017 to 2020.",
   plot = plotlyOutput(
     "pollutionPlot7",
     width = "1000px",
