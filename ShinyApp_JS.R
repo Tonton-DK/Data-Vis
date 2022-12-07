@@ -29,7 +29,7 @@ ui = fluidPage(
   tags$div(
     id = "sidenav",
     class = "sidenav",
-    tags$a(href = "#intro", "Introduction"),
+    tags$a(href = "#intro", "Introduction", class="active"),
     tags$a(href = "#q1", "Question 1"),
     tags$a(href = "#q2", "Question 2"),
     tags$a(href = "#q3", "Question 3"),
