@@ -13,7 +13,7 @@
 q4_ui <- create_ui(
   index = 4, 
   question = "Did the UN Paris agreement have an impact on the amount of emissions? Has the increased, decreased or stayed the same?",
-  conclusion = "",
+  conclusion = "A general observation made is that an overall decline in pollution levels can be observed in many of the plots created especially the <i>mean emission for each European region</i>. This plot specifically displays and emphasises a clear decline in emissions after 2015 proposing that the approval and implementation of the agreement had a positive impact by minimising overall air pollution in Europe. Furthermore, a more detailed perspective can be achieved by using some of the other solutions, specifically some of the other line plots, as they display the same tendency.",
   imageOutput("pollutionPlot4",
               width = "1000px",
               height = "100%") %>% withSpinner(color="#4363D8"),

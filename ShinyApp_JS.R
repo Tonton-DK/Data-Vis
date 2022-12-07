@@ -40,9 +40,9 @@ ui = fluidPage(
   ),
   tags$div(
     id = "main",
-    tags$section(id="doc",
-                 tags$h1("Documentation"),
-                 intro_ui,
+    tags$section(
+      id="doc",
+      intro_ui
     ),
     q1_ui,
     q2_ui,

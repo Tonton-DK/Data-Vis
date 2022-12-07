@@ -26,7 +26,7 @@ create_ui <- function(index, question, conclusion, plot, control = NULL, control
           plot
         )
       )),
-      tags$p(conclusion)
+      tags$p(HTML(conclusion))
     )
   )
   

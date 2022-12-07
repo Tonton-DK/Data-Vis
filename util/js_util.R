@@ -5,7 +5,7 @@ const sections = document.querySelectorAll('section[id]');
     let scroll = window.pageYOffset;
     sections.forEach(function (current) {
         const sectionHeight = current.offsetHeight;
-        const sectionTop = current.offsetTop - 50;
+        const sectionTop = current.offsetTop - 10;
         sectionId = current.getAttribute('id');
         if (
             scroll > sectionTop &&
@@ -26,27 +26,30 @@ body {
 }
 
 section {
-/*    background-color: #f2f2f2; */
-    min-height: 100vh;
+/*    background-color: #f2f2f2; 
+    min-height: 100vh; */
     margin: 0;
     padding: 2.5rem 4rem;
+    max-width: 1100px;
 }
 /*
 section:nth-of-type(2n) {
     background-color: #ccc;
 }
+*/
 
 section:last-of-type {
     height: 100vh;
 }
-*/
+
 
 .question {
     margin-bottom: 4em;
 }
 
 .chart {
-  margin-top: 4rem
+  margin-top: 4rem;
+  margin-bottom: 4em;
 }
 
 .sidenav {
