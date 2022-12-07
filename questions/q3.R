@@ -11,8 +11,28 @@
 q3_ui <- create_ui(
   index = 3, 
   question = "Is the capital the most polluted of the countries?",
-  conclusion = "The general trend displayed in the dumbbell chart shows that for most countries the capital is the most polluted. The raw data includes every city; however, this visualisation only distinguishes between what is released in the capital and what is released outside the capital. One could think that such a grouping would result in non-capital pollution being significantly higher, although that is only the case with Estonia.<br><br>
-For Belgium, Germany, and Poland it is almost a tie, although it is hard to tell; one would need to inspect the actual values (which is possible). Amsterdam, the capital of Netherlands is the most polluted city according to the data. Similarly, the plot shows that pollution outside the capital of Netherlands is greater than the majority of every other capital, which raises questions as to whether this is in fact the case or if the Netherlands simply is much better at reporting.",
+  conclusion = "
+The general trend displayed in the dumbbell chart shows that for most countries 
+the capital is the most polluted. The raw data includes every city; however, 
+this visualisation only distinguishes between what is released in the capital 
+and what is released outside the capital. One could think that such a grouping 
+would result in non-capital pollution being significantly higher, although that 
+is only the case with Estonia.<br><br>
+For Belgium, Germany, and Poland it is almost a tie, although it is hard to 
+tell; one would need to inspect the actual values (which is possible). 
+Amsterdam, the capital of Netherlands is the most polluted city according to 
+the data. Similarly, the plot shows that pollution outside the capital of 
+Netherlands is greater than the majority of every other capital, which raises 
+questions as to whether this is in fact the case or if the Netherlands simply 
+is much better at reporting.<br><br>
+By looking at the graph, it is not possible to tell if the capitals are more 
+polluted than the rest; however, the following statistics were observed: the 
+capital is more polluted in 14 of the countries, the capital is not the most 
+polluted in 12 countries, and the remaining 6 countries contained a NA value in 
+one of the categories. To conclude, there is not enough evidence to say the 
+capitals are more polluted since the 6 countries with unknown status could go 
+either way.
+",
   control = radioButtons(
     "orderby",
     "Order by:",
