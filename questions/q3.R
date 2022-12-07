@@ -12,10 +12,7 @@ q3_ui <- create_ui(
   index = 3, 
   question = "Is the capital the most polluted of the countries?",
   conclusion = "The general trend displayed in the dumbbell chart shows that for most countries the capital is the most polluted. The raw data includes every city; however, this visualisation only distinguishes between what is released in the capital and what is released outside the capital. One could think that such a grouping would result in non-capital pollution being significantly higher, although that is only the case with Estonia.<br><br>
-
-For Belgium, Germany, and Poland it is almost a tie, although it is hard to tell; one would need to inspect the actual values (which is possible). Amsterdam, the capital of Netherlands is the most polluted city according to the data. Similarly, the plot shows that pollution outside the capital of Netherlands is greater than the majority of every other capital, which raises questions as to whether this is in fact the case or if the Netherlands simply is much better at reporting.<br><br>
-
-The dumbbell chart proves slightly inefficient at displaying the differences within the category (the x-axis), because some of the dots are far apart, however, when it is ordered, it is very effective at displaying for one part of the category (capital or non-capital) the differences over the y-axis.",
+For Belgium, Germany, and Poland it is almost a tie, although it is hard to tell; one would need to inspect the actual values (which is possible). Amsterdam, the capital of Netherlands is the most polluted city according to the data. Similarly, the plot shows that pollution outside the capital of Netherlands is greater than the majority of every other capital, which raises questions as to whether this is in fact the case or if the Netherlands simply is much better at reporting.",
   control = radioButtons(
     "orderby",
     "Order by:",
