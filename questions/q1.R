@@ -12,17 +12,34 @@ library(htmlwidgets)
 q1_ui <- create_ui(
   index = 1, 
   question = "Which countries are responsible for the majority of pollution?",
-  conclusion = "By looking at the generated Pollution map in combination with the top-10 for polluting countries during the years, the following conclusions could be drawn:<br><br>
-
-The top polluters from the data-set are Estonia, Netherlands, and Greece. These 3 countries are in the top-3 for the majority of the data points. The Netherlands is the top polluter for 5 years and Estonia is the top polluter for 9 years, making these the most polluting countries during the time period of the data-set.<br><br>
-
-Since the top-10 bar-chart is only able to visualise the most polluting countries, an overview of the entire data-set is lost. To alleviate this lack, the geographic map comes into play.<br>
-By analysing this map it becomes clear that many countries have a much lower degree of pollution compared to the top countries, placing them at 100x1000 tons and below.<br>
-The shifts in colour tells the story of which countries change their pollution levels, and which are stable.<br><br>
-
-Furthermore it can be inspected how bordering countries relate to each other. As an example, Germany, Czechia, and Austria seem to follow the same trends indicated by being in the same colour region of the scale throughout the years.<br><br>
-
-In combination these graphs creates an overview of which countries are main contributors to the global emission of air pollutants, while also showing the general trend of evolution.",
+  conclusion = "By looking at the generated Pollution map in combination with 
+  the top-10 for polluting countries during the years, the following conclusions
+  could be drawn:<br><br>
+  
+  The top polluters from the data-set are Estonia, Netherlands, and Greece. 
+  These 3 countries are in the top-3 for the majority of the data points. The 
+  Netherlands is the top polluter for 5 years and Estonia is the top polluter 
+  for 9 years, making these the most polluting countries during the time period 
+  of the data-set.<br><br>
+  
+  Since the bar-chart with the top 10 polluting countries is only able to 
+  visualise the most polluting countries, the lack of an overview of the 
+  entire data-set is apparent. To alleviate this, the geographic map comes into 
+  play.<br>
+  By analysing this map it becomes clear that many countries have a much lower 
+  degree of pollution compared to the top countries, placing them at 100x1000 
+  tons and below.<br>
+  The shifts in colour tells the story of which countries change their pollution 
+  levels, and which are stable.<br><br>
+  
+  Furthermore it can be inspected how bordering countries relate to each other. 
+  As an example, Germany, Czechia, and Austria seem to follow the same trends 
+  indicated by being in the same colour region of the scale throughout the 
+  years.<br><br>
+  
+  In combination these graphs creates an overview of which countries are main 
+  contributors to the global emission of air pollutants, while also showing the 
+  general trend of evolution.",
   control = sliderInput(
     "yearId",
     "Select a year",
