@@ -48,7 +48,8 @@ q5_server <- function(input, output) {
           linetype = "dotted",
           colour = "darkblue"
         )
-    )
+    ) %>%
+    highlight(on = "plotly_hover", off = "plotly_doubleclick")
   })
 }
 
@@ -60,5 +61,6 @@ q5_data <<-
          sector = eprtrSectorName,
          year = reportingYear,
          emission = mean_emission
-  )
+  ) %>%
+  highlight_key(~sector)
 rm(grouped, meaned)

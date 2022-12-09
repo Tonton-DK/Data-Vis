@@ -23,13 +23,13 @@ In spite of the fact that some countries have yet to report their emissions, it 
 q7_server <- function(input, output) {
   output$pollutionPlot7 <- renderPlotly({
     plt1 <- create_q7_plot(q7_data)
-    plt2 <- create_q7_plot(q7_data_alt)
+    plt2 <- create_q7_plot(q7_data_alt) %>%
+      highlight(on = "plotly_hover", off = "plotly_doubleclick")
     subplot(plt1,
             plt2,
             nrows = 2,
             shareX = TRUE,
-            shareY = TRUE) %>%
-      highlight(~pollutant, on = "plotly_click", off = "plotly_doubleclick")
+            shareY = TRUE)
   })
 }
 
@@ -79,8 +79,7 @@ temp <- dat %>%
     mean_emission = round(mean_emission, 0)
   )
 q7_data <<- temp %>%
-  filter(pollutant %in% top2) %>% 
-  highlight_key(~pollutant)
+  filter(pollutant %in% top2)
 q7_data_alt <<- temp %>%
   filter(!pollutant %in% top2) %>% 
   highlight_key(~pollutant)

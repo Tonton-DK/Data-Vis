@@ -46,7 +46,8 @@ q2_server <- function(input, output) {
       rename(meaned,
              country = countryName,
              year = reportingYear,
-             emission = mean_emission)
+             emission = mean_emission) %>%
+      highlight_key(~country)
     
     plt <- ggplot(meaned,
                   aes) +
@@ -62,7 +63,8 @@ q2_server <- function(input, output) {
                  linetype = "dotted",
                  colour = "darkblue")
     
-    ggplotly(plt)
+    ggplotly(plt) %>%
+      highlight(on = "plotly_hover", off = "plotly_doubleclick")
   })
   
   output$pollutionPlot2b <- renderPlotly({
@@ -76,7 +78,8 @@ q2_server <- function(input, output) {
       rename(meaned,
              country = countryName,
              year = reportingYear,
-             emission = mean_emission)
+             emission = mean_emission) %>%
+      highlight_key(~country)
     
     plt <- ggplot(meaned,
                   aes) +
@@ -93,6 +96,7 @@ q2_server <- function(input, output) {
                  linetype = "dotted",
                  colour = "darkblue")
     
-    ggplotly(plt)
+    ggplotly(plt) %>%
+      highlight(on = "plotly_hover", off = "plotly_doubleclick")
   })
 }
