@@ -8,7 +8,7 @@ library(gganimate)
 library(gifski)
 library(treemapify)
 library(shinycssloaders)
-
+library(maps)
 
 source('ingestion/data.R')
 source('ingestion/style.R')
