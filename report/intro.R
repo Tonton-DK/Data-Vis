@@ -28,15 +28,15 @@ The results and analysis obtained by the execution of this project could potenti
   tags$h4(style="margin-top: 1.5em;","Datset"),
   tags$a(href="https://www.eea.europa.eu/data-and-maps/data/industrial-reporting-under-the-industrial-6", "https://www.eea.europa.eu/data-and-maps/data/industrial-reporting-under-the-industrial-6"),
   tags$h4(style="margin-top: 1.5em;","Report"),
-  tags$a(href="Download", "Download")
+  downloadButton("downloadData", "Download")
 )
 
 
 intro_server <- function(input, output) {
   output$downloadData <- downloadHandler(
-    filename = "test.txt",
+    filename = "report.pdf",
     content = function(file) {
-      file.copy("report/test.txt", file)
+      file.copy("report/report.pdf", file)
     }
   )
 }
