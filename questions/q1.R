@@ -55,7 +55,7 @@ q1_ui <- create_ui(
       "Top-10",
       plotlyOutput(
         "pollutionPlot1b",
-        width = "750px",
+        width = "850px",
         height = "100%"
       ),
       div(id = "q1bar", textOutput("Loading") %>% withSpinner(color="#4363D8"))
@@ -64,7 +64,7 @@ q1_ui <- create_ui(
       "Map",
       plotlyOutput(
         "pollutionPlot1a",
-        width = "750px",
+        width = "850px",
         height = "100%"
       )
     )

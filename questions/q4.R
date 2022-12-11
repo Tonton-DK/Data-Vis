@@ -24,7 +24,7 @@ q4_ui <- create_ui(
   UN Paris agreement had a positive impact by minimising overall air pollution 
   in Europe.',
   imageOutput("pollutionPlot4",
-              width = "1000px",
+              width = "1100px",
               height = "100%") %>% withSpinner(color="#4363D8"),
 )
 

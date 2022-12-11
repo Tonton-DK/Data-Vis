@@ -34,7 +34,7 @@ q6_ui <- create_ui(
     fluidRow(
       plotOutput(
         "pollutionPlot6a",
-        width = "1000px",
+        width = "1100px",
         height = "500px"
       ) %>% withSpinner(color="#4363D8")
     ),
@@ -42,7 +42,7 @@ q6_ui <- create_ui(
       style="margin-top:5rem;",
       plotlyOutput(
         "pollutionPlot6b",
-        width = "1000px",
+        width = "1100px",
         height = "100%"
       ) %>% withSpinner(color="#4363D8")
     )

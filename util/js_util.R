@@ -30,7 +30,7 @@ section {
     min-height: 100vh; */
     margin: 0;
     padding: 2.5rem 4rem;
-    max-width: 1100px;
+    max-width: 1200px;
 }
 /*
 section:nth-of-type(2n) {
