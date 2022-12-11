@@ -25,7 +25,7 @@ q7_ui <- create_ui(
   massive drop seen in CO2 from 2017 to 2020.",
   plot = plotlyOutput(
     "pollutionPlot7",
-    width = "1000px",
+    width = "1100px",
     height = "100%"
   ) %>% withSpinner(color="#4363D8")
 )

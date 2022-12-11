@@ -42,7 +42,7 @@ q3_ui <- create_ui(
   controlWidth = 150,
   plot = plotlyOutput(
     "pollutionPlot3",
-    width = "850px",
+    width = "950px",
     height = "100%"
   ) %>% withSpinner(color="#4363D8")
 )

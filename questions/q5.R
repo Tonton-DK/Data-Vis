@@ -31,7 +31,7 @@ q5_ui <- create_ui(
   affected by the political climate.",
   plotlyOutput(
     "pollutionPlot5",
-    width = "1000px",
+    width = "1100px",
     height = "100%"
   ) %>% withSpinner(color="#4363D8"),
 )
