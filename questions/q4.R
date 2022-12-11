@@ -54,7 +54,7 @@ q4_server <- function(input, output) {
         geom_vline(xintercept = 2015, linetype = "dotted", colour = "darkblue") +
         gganimate::transition_reveal(year) #+ 
       #gganimate::view_follow()
-      a <- animate(anim, renderer = gifski_renderer(), width=1000)
+      a <- animate(anim, renderer = gifski_renderer(), width=1100)
       print(a) # print first
       
       anim_save(filename = "outfile.gif", animation = a) # works
