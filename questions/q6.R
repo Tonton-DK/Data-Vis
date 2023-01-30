@@ -13,16 +13,28 @@ library(treemapify)
 q6_ui <- create_ui(
   index = 6, 
   question = "Which industry sectors are responsible for the majority of the pollution?",
-  conclusion = "By analysing the tree-map and bar chart, the group is able to determine which industry sector is responsible for the majority of the pollution in the EU.<br><br>
-
-Looking at the visualisations, it becomes evident which sector is the biggest polluter - the energy sector. It is the clear outlier compared to the other industry sectors, and there can be several causes as to why. This fits well with the narrative and does not come as a surprise to the group as, compared to other industries such Paper and Wood, the needs of the people on the planet are becoming bigger, thus requiring a bigger effort in maintaining that need, resulting in more waste and more pollution caused.<br><br>
-
-According to the European Environment Agency, energy processes in Europe are responsible for 78% of total EU emissions. These processes are tightly linked to the burning of fossil fuels for heating, electricity, transport in industry. Despite fossil fuel burning being the majority of the pollution released, there are multiple ways the energy sector can pollute.",
+  conclusion = "By analysing the tree-map and bar chart, the group is able to 
+  determine which industry sector is responsible for the majority of the 
+  pollution in the EU.<br><br>
+  
+  Looking at the visualisations, it becomes evident which sector is the biggest 
+  polluter - the energy sector. It is the clear outlier compared to the other 
+  industry sectors, and there can be several causes as to why. This fits well 
+  with the narrative and does not come as a surprise to the group as, compared 
+  to other industries such Paper and Wood, the needs of the people on the planet 
+  are becoming bigger, thus requiring a bigger effort in maintaining that need, 
+  resulting in more waste and more pollution caused.<br><br>
+  
+  According to the European Environment Agency, energy processes in Europe are 
+  responsible for 78% of total EU emissions. These processes are tightly linked 
+  to the burning of fossil fuels for heating, electricity, transport in 
+  industry. Despite fossil fuel burning being the majority of the pollution 
+  released, there are multiple ways the energy sector can pollute.",
   plot = div(
     fluidRow(
       plotOutput(
         "pollutionPlot6a",
-        width = "1000px",
+        width = "1100px",
         height = "500px"
       ) %>% withSpinner(color="#4363D8")
     ),
@@ -30,7 +42,7 @@ According to the European Environment Agency, energy processes in Europe are res
       style="margin-top:5rem;",
       plotlyOutput(
         "pollutionPlot6b",
-        width = "1000px",
+        width = "1100px",
         height = "100%"
       ) %>% withSpinner(color="#4363D8")
     )

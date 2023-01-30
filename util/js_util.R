@@ -30,7 +30,7 @@ section {
     min-height: 100vh; */
     margin: 0;
     padding: 2.5rem 4rem;
-    max-width: 1100px;
+    max-width: 1200px;
 }
 /*
 section:nth-of-type(2n) {
@@ -94,7 +94,7 @@ section:last-of-type {
 #main {
     transition: margin-left 0.5s;
     margin-left: 250px;
-    padding: 16px;
+    /* padding: 16px; */
 }
 
 @media screen and (max-height: 450px) {
